@@ -108,29 +108,29 @@ This endpoint queries the list of available printer "objects" that one may query
 
 ### objects/query
 
-This endpoint allows one to query information from printer objects. For example: `{"id": 123, "method": "objects/query", "params": {"objects": {"toolhead": ["position"], "webhooks": null}}}` might return: `{"id": 123, "result": {"status": {"webhooks": {"state": "ready", "state_message": "Printer is ready"}, "toolhead": {"position": [0.0, 0.0, 0.0, 0.0]}}, "eventtime": 3051555.377933684}}`
+这个endpoint允许从打印机对象中查询信息。比如说：`{"id": 123, "method": "objects/query", "params": {"objects": {"toolhead": ["position"], "webhooks": null}}}` 可能返回。`{"id": 123, "result": {"status": {"webhooks": {"state": "ready", "state_message": "Printer is ready"}, "toolhead": {"position": [0.0, 0.0, 0.0, 0.0]}}, "eventtime": 3051555.377933684}}`
 
-The "objects" parameter in the request must be a dictionary containing the printer objects that are to be queried - the key contains the printer object name and the value is either "null" (to query all fields) or a list of field names.
+请求中的 "objects "参数必须是一个包含要查询的打印机对象的字典 - 键包含打印机对象名称，值是 "null"（查询所有字段）或一个字段名的列表。
 
-The response message will contain a "status" field containing a dictionary with the queried information - the key contains the printer object name and the value is a dictionary containing its fields. The response message will also contain an "eventtime" field containing the timestamp from when the query was taken.
+响应消息将包含一个 "status "字段，其中包含一个包含查询信息的字典 - 键包含打印机对象名称，值是一个包含其字段的字典。响应消息还将包含一个 "eventtime "字段，其中包含从查询开始的时间戳。
 
-Available fields are documented in the [Status Reference](Status_Reference.md) document.
+[Status Reference](Status_Reference.md) 文档中定义了可用字段。
 
 ### objects/subscribe
 
-This endpoint allows one to query and then subscribe to information from printer objects. The endpoint request and response is identical to the "objects/query" endpoint. For example: `{"id": 123, "method": "objects/subscribe", "params": {"objects":{"toolhead": ["position"], "webhooks": ["state"]}, "response_template":{}}}` might return: `{"id": 123, "result": {"status": {"webhooks": {"state": "ready"}, "toolhead": {"position": [0.0, 0.0, 0.0, 0.0]}}, "eventtime": 3052153.382083195}}` and result in subsequent asynchronous messages such as: `{"params": {"status": {"webhooks": {"state": "shutdown"}}, "eventtime": 3052165.418815847}}`
+这个endpoint允许查询，然后subscribe打印机对象的信息。端点的请求和响应与 "objects/query" endpoint相同。例如。`"id": 123, "method": "objects/subscribe", "params": {"objects":{"toolhead": ["position"], "webhooks": ["state"]}, "response_template":{}}}` 可能返回：`{"id": 123, "result": {"status": {"webhooks": {"state": "ready"}, "toolhead": {"position": [0.0, 0.0, 0.0, 0.0]}}, "eventtime": 3052153.382083195}}` ，并导致随后的异步消息，例如：`{"params": {"status": {"webhooks": {"state": "shutdown"}}, "eventtime": 3052165.418815847}}`
 
 ### gcode/help
 
-This endpoint allows one to query available G-Code commands that have a help string defined. For example: `{"id": 123, "method": "gcode/help"}` might return: `{"id": 123, "result": {"RESTORE_GCODE_STATE": "Restore a previously saved G-Code state", "PID_CALIBRATE": "Run PID calibration test", "QUERY_ADC": "Report the last value of an analog pin", ...}}`
+这个endpoint允许查询有定义帮助字符串的可用G-Code命令。例如：`{"id": 123, "method": "gcode/help"}` 可能返回：`{"id": 123, "result": {"RESTORE_GCODE_STATE": "Restore a previously saved G-Code state", "PID_CALIBRATE": "Run PID calibration test", "QUERY_ADC": "Report the last value of an analog pin", ...}}`
 
 ### gcode/script
 
-This endpoint allows one to run a series of G-Code commands. For example: `{"id": 123, "method": "gcode/script", "params": {"script": "G90"}}`
+这个endpoint允许运行一系列的G代码命令。比如说：`{"id": 123, "method": "gcode/script", "params": {"script": "G90"}}`
 
-If the provided G-Code script raises an error, then an error response is generated. However, if the G-Code command produces terminal output, that terminal output is not provided in the response. (Use the "gcode/subscribe_output" endpoint to obtain G-Code terminal output.)
+如果提供的G-Code脚本产生了错误，那么就会产生一个错误响应。然而，如果G-Code命令产生了终端输出，则该终端输出不会在响应中提供。(使用 "gcode/subscribe_output " endpoint 来获取G-Code终端输出。）
 
-If there is a G-Code command being processed when this request is received, then the provided script will be queued. This delay could be significant (eg, if a G-Code wait for temperature command is running). The JSON response message is sent when the processing of the script fully completes.
+如果在收到这个请求时有一个G-Code命令正在处理，那么所提供的脚本将被排队。这个延迟可能很严重（例如，如果一个G-Code等待温度的命令正在运行）。当脚本的处理完全完成时，将发送JSON响应信息。
 
 ### gcode/restart
 
