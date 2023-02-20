@@ -205,6 +205,19 @@ Il convient de noter que chaque fois qu'un BED_MESH_CALIBRATE est produit, l'ét
 
 Tout autre profil enregistré peut être supprimé de la même manière, en remplaçant *default* par le nom du profil que vous souhaitez supprimer.
 
+#### Chargement du profil par défaut
+
+Les versions précédentes de `bed_mesh` chargeaient toujours le profil nommé *default* au démarrage s'il était présent. Ce comportement a été supprimé afin de permettre à l'utilisateur de déterminer quand un profil est chargé. Si un utilisateur souhaite charger le profil par défaut, il est recommandé d'ajouter `BED_MESH_PROFILE LOAD=default` à sa macro `START_PRINT` ou à la configuration "Start G-Code" de son trancheur, selon ce qui est applicable.
+
+Alternativement, l'ancien comportement de chargement d'un profil au démarrage peut être restauré avec un `[delayed_gcode]` :
+
+```ini
+[delayed_gcode bed_mesh_init]
+initial_duration: .01
+gcode:
+  BED_MESH_PROFILE LOAD=default
+```
+
 ### Sortie
 
 `BED_MESH_OUTPUT PGP=[0 | 1]`

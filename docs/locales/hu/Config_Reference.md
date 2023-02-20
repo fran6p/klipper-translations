@@ -1506,7 +1506,7 @@ cs_pin:
 
 ### [mpu9250]
 
-MPU-9250, MPU-9255, MPU-9255, MPU-6050 és MPU-6500 gyorsulásmérők támogatása (tetszőleges számú szekciót lehet definiálni "mpu9250" előtaggal).
+MPU-9250, MPU-9255, MPU-6515, MPU-6050 és MPU-6500 gyorsulásmérők támogatása (tetszőleges számú szekciót lehet definiálni "mpu9250" előtaggal).
 
 ```
 [mpu9250 my_accelerometer]
@@ -2783,15 +2783,14 @@ TMC2130 motorvezérlő konfigurálása SPI-buszon keresztül. A funkció haszná
 [tmc2130 stepper_x]
 cs_pin:
 #   A TMC2130 chip kiválasztási vonalának megfelelő tű. Ez a tű alacsony
-#   értékre lesz állítva az SPI-üzenetek elején, és az üzenet befejezése
-#   után magasra lesz húzva. Ezt a paramétert meg kell adni.
+#   értékre lesz állítva az SPI-üzenetek elején, és magasra az üzenet
+#   befejezése után. Ezt a paramétert meg kell adni.
 #spi_speed:
 #spi_bus:
 #spi_software_sclk_pin:
 #spi_software_mosi_pin:
 #spi_software_miso_pin:
-#   A fenti paraméterek leírását az „általános SPI-beállítások” részben
-#   találja.
+#   A fenti paraméterek leírását az "általános SPI-beállítások" részben találod.
 #chain_position:
 #chain_length:
 #   Ezek a paraméterek egy SPI-láncot konfigurálnak. A két paraméter
@@ -2799,52 +2798,76 @@ cs_pin:
 #   Az 1. pozíció a MOSI jelhez csatlakozó léptetőnek felel meg.
 #   Az alapértelmezés szerint nem használ SPI-láncot.
 #interpolate: True
-#   Ha True, engedélyezd a lépésinterpolációt (az illesztőprogram
-#   belsőleg 256 mikrolépéses sebességgel léptet). Ez az interpoláció egy
-#   kis szisztémás pozícióeltérést vezet be. A részletekért lásd:
-#   TMC_Drivers.md. Az alapértelmezett érték True.
+#   Ha true, engedélyezd a lépésinterpolációt (az illesztőprogram
+#   belsőleg 256 mikrolépéses sebességgel lép fel). Ez az interpoláció
+#   egy kis szisztémás pozícióeltérést vezet be – a részletekért lásd a
+#   TMC_Drivers.md fájlt. Az alapértelmezett érték True.
 run_current:
-#   Az áramerősség (amper RMS-ben) a motorvezérlő konfigurálásához a
-#   léptetőmotor mozgása során. Ezt a paramétert meg kell adni.
+#   Az áramerősség (amper RMS-ben) a meghajtónak a léptető mozgása
+#   közbeni konfigurálásához. Ezt a paramétert meg kell adni.
 #hold_current:
-#   Az az áramerősség (amper RMS-ben), amelyet a motorvezérlőnek akkor
-#   kell leadni, amikor a léptetőmotor nem mozog. A hold_current beállítása
-#   nem ajánlott (a részletekért lásd: TMC_Drivers.md). Az alapértelmezett
-#   az, hogy nem csökkenti az áramerősséget.
-#sense_resistor: 0.110
+#   Az az áramerősség (amper RMS-ben), amellyel az illesztőprogramot
+#   akkor kell használni, amikor a léptető nem mozog. A hold_current
+#   beállítása nem ajánlott (a részletekért lásd: TMC_Drivers.md).
+#   Az alapértelmezett az, hogy nem csökkenti az áramerősséget.
+#sense_resistor: 0,110
 #   A motor érzékelő ellenállásának ellenállása (ohmban).
 #   Az alapértelmezett érték 0,110 ohm.
 #stealthchop_threshold: 0
-#   A „StealthChop” küszöbérték beállításához szükséges sebesség
-#   (mm/sec-ben). Ha be van állítva, a "StealthChop" mód engedélyezve
-#   lesz, ha a léptetőmotor sebessége ez alatt az érték alatt van.
-#   Az alapértelmezett érték 0, ami letiltja a "StealthChop" módot.
+#   A sebesség (mm/s-ban), amelyre a "stealthChop" küszöbértéket
+#   be kell állítani. Ha be van állítva, a "stealthChop" mód engedélyezve lesz,
+#   ha a léptetőmotor sebessége ez az érték alatt van.
+#   Az alapértelmezett 0, ami letiltja a "stealthChop" módot.
+#driver_MSLUT0: 2863314260
+#driver_MSLUT1: 1251300522
+#driver_MSLUT2: 608774441
+#driver_MSLUT3: 269500962
+#driver_MSLUT4: 4227858431
+#driver_MSLUT5: 3048961917
+#driver_MSLUT6: 1227445590
+#driver_MSLUT7: 4211234
+#driver_W0: 2
+#driver_W1: 1
+#driver_W2: 1
+#driver_W3: 1
+#driver_X1: 128
+#driver_X2: 255
+#driver_X3: 255
+#driver_START_SIN: 0
+#driver_START_SIN90: 247
+#   Ezek a mezők közvetlenül vezérlik a Microstep Table regisztereket.
+#   Az optimális hullámtábla minden motorra jellemző, és az áramerősség
+#   függvényében változhat. Az optimális konfiguráció minimális
+#   nyomtatási műhibákat tartalmaz, amelyet a léptető nem lineáris
+#   mozgása okoz. A fent megadott értékek az illesztőprogram által használt
+#   alapértelmezett értékek. Az értéket decimális egész számként kell megadni
+#   (a hexadecimális alak nem támogatott). A hullámtábla mezőinek
+#   kiszámításához lásd a tmc2130 „Számítási lapot” a Trinamic webhelyen.
 #driver_IHOLDDELAY: 8
 #driver_TPOWERDOWN: 0
 #driver_TBL: 1
 #driver_TOFF: 4
 #driver_HEND: 7
 #driver_HSTRT: 0
-#driver_PWM_AUTOSCALE: True
+#driver_PWM_AUTOSCALE: Igaz
 #driver_PWM_FREQ: 1
 #driver_PWM_GRAD: 4
 #driver_PWM_AMPL: 128
 #driver_SGT: 0
 #   Állítsd be a megadott regisztert a TMC2130 chip konfigurációja során.
 #   Ez egyéni motorparaméterek beállítására használható.
-#   Az egyes paraméterek alapértelmezett értékei a paraméter neve mellett
-#   találhatók a fenti listában.
+#   Az egyes paraméterek alapértelmezett értékei a paraméter neve
+#   mellett találhatók a fenti listában.
 #diag0_pin:
 #diag1_pin:
-#   A mikrovezérlő tűje a TMC2130 chip egyik DIAG tűjéhez csatlakozik.
-#   Csak egyetlen DIAG tűt kell megadni. A tű "active low", ezért
-#   általában "^!" előtagja van. Ennek beállítása egy
-#   „tmc2130_stepper_x:virtual_endstop” virtuális tűt hoz létre, amely a
-#   léptető endstop_pin-jeként használható. Ez lehetővé teszi az
-#   „érzékelő nélküli kezdőpont felvétel” funkciót. (Győződj meg arról,
-#   hogy a driver_SGT-t is megfelelő érzékenységi értékre állítja be.)
-#   Az alapértelmezés az, hogy nem engedélyezi az érzékelő nélküli
-#   kezdőpont felvételt.
+#   A mikrovezérlő tűje a TMC2130 chip egyik DIAG vonalához csatlakozik.
+#   Csak egyetlen diag tűt kell megadni. A tű "aktív alacsony", ezért általában
+#   "^!" előtagja van. Ennek beállítása egy "tmc2130_stepper_x:virtual_endstop"
+#   virtuális tűt hoz létre, amely a léptető endstop_pin-jeként használható.
+#   Ez lehetővé teszi az „érzékelő nélküli kezdőpont” funkciót.
+#   (Győződj meg arról, hogy a driver_SGT is megfelelő érzékenységi értékre
+#   van állítva.) Az alapértelmezés az, hogy nem engedélyezett az érzékelő
+#   nélküli kezdőpont.
 ```
 
 ### [tmc2208]
@@ -3032,16 +3055,15 @@ TMC5160 motorvezérlő konfigurálása SPI-buszon keresztül. A funkció haszná
 ```
 [tmc5160 stepper_x]
 cs_pin:
-#   A TMC5160 chip kiválasztási vonalának megfelelő tű. Ez a tű alacsony
-#   értékre lesz állítva az SPI-üzenetek elején, és az üzenet befejezése után
-#   magasra változik. Ezt a paramétert meg kell adni.
+#   A TMC5160 chip kiválasztási vonalának megfelelő tű. Ez a tű
+#   alacsony értékre lesz állítva az SPI-üzenetek elején, és magasra
+#   az üzenet befejezése után. Ezt a paramétert meg kell adni.
 #spi_speed:
 #spi_bus:
 #spi_software_sclk_pin:
 #spi_software_mosi_pin:
 #spi_software_miso_pin:
-#   A fenti paraméterek leírását az „általános SPI-beállítások”
-#   részben találja.
+#   A fenti paraméterek leírását az "általános SPI-beállítások" részben találod.
 #chain_position:
 #chain_length:
 #   Ezek a paraméterek egy SPI-láncot konfigurálnak. A két paraméter
@@ -3049,24 +3071,51 @@ cs_pin:
 #   Az 1. pozíció a MOSI jelhez csatlakozó léptetőnek felel meg.
 #   Az alapértelmezés szerint nem használ SPI-láncot.
 #interpolate: True
-#   Ha True, engedélyezd a lépésinterpolációt (a motorvezérlő belsőleg
-#   256 mikrolépéses sebességgel léptet). Az alapértelmezett érték True.
+#   Ha true, engedélyezd a lépésinterpolációt (az illesztőprogram
+#   belsőleg 256 mikrolépéses sebességgel léptet).
+#   Az alapértelmezett érték True.
 run_current:
-#   Az áramerősség (amper RMS-ben) a meghajtó konfigurálásához a
-#   léptető mozgása során. Ezt a paramétert meg kell adni.
+#   Az áramerősség (amper RMS-ben) a meghajtónak a léptető mozgása
+#   közbeni konfigurálásához. Ezt a paramétert meg kell adni.
 #hold_current:
-#   Az az áramerősség (amper RMS-ben), amelyet a motorvezérlő akkor
-#   ad le, amikor a léptető nem mozog. A hold_current beállítása nem
-#   ajánlott (a részletekért lásd: TMC_Drivers.md).
+#   Az az áramerősség (amper RMS-ben), amellyel az illesztőprogramot
+#   akkor kell használni, amikor a léptető nem mozog. A hold_current
+#   beállítása nem ajánlott (a részletekért lásd: TMC_Drivers.md).
 #   Az alapértelmezett az, hogy nem csökkenti az áramerősséget.
-#sense_resistor: 0.075
+#sense_resistor: 0,075
 #   A motor érzékelő ellenállásának ellenállása (ohmban).
 #   Az alapértelmezett érték 0,075 ohm.
 #stealthchop_threshold: 0
-#   A „StealthChop” küszöbérték beállításához szükséges sebesség
-#   (mm/sec-ben). Ha be van állítva, a "StealthChop" mód engedélyezve
-#   lesz, ha a léptetőmotor sebessége ez alatt az érték alatt van.
-#   Az alapértelmezett érték 0, ami letiltja a "StealthChop" módot.
+#   A sebesség (mm/s-ban), amelyre a "stealthChop" küszöbértéket
+#   be kell állítani. Ha be van állítva, a "stealthChop" mód engedélyezve
+#   lesz, ha a léptetőmotor sebessége ez az érték alatt van.
+#   Az alapértelmezett 0, ami letiltja a "stealthChop" módot.
+#driver_MSLUT0: 2863314260
+#driver_MSLUT1: 1251300522
+#driver_MSLUT2: 608774441
+#driver_MSLUT3: 269500962
+#driver_MSLUT4: 4227858431
+#driver_MSLUT5: 3048961917
+#driver_MSLUT6: 1227445590
+#driver_MSLUT7: 4211234
+#driver_W0: 2
+#driver_W1: 1
+#driver_W2: 1
+#driver_W3: 1
+#driver_X1: 128
+#driver_X2: 255
+#driver_X3: 255
+#driver_START_SIN: 0
+#driver_START_SIN90: 247
+#   Ezek a mezők közvetlenül vezérlik a Microstep Table regisztereket.
+#   Az optimális hullámtábla minden motorra jellemző, és az áramerősség
+#   függvényében változhat. Az optimális konfiguráció minimális nyomtatási
+#   műhibákat tartalmaz, amelyet a léptető nem lineáris mozgása okoz.
+#   A fent megadott értékek az illesztőprogram által használt alapértelmezett
+#   értékek. Az értéket decimális egész számként kell megadni
+#   (a hexadecimális alak nem támogatott).
+#   A hullámtábla mezőinek kiszámításához lásd a tmc2130
+#   „Számítási lapot” a Trinamic webhelyen.
 #driver_IHOLDDELAY: 6
 #driver_TPOWERDOWN: 10
 #driver_TBL: 2
@@ -3080,8 +3129,8 @@ run_current:
 #driver_VHIGHCHM: 0
 #driver_DISS2G: 0
 #driver_DISS2VS: 0
-#driver_PWM_AUTOSCALE: True
-#driver_PWM_AUTOGRAD: True
+#driver_PWM_AUTOSCALE: Igaz
+#driver_PWM_AUTOGRAD: Igaz
 #driver_PWM_FREQ: 0
 #driver_FREEWHEEL: 0
 #driver_PWM_GRAD: 0
@@ -3096,20 +3145,17 @@ run_current:
 #driver_SEIMIN: 0
 #driver_SFILT: 0
 #   Állítsd be a megadott regisztert a TMC5160 chip konfigurációja során.
-#   Ez egyéni motorparaméterek beállítására használható. Az egyes
-#   paraméterek alapértelmezett értékei a paraméter neve mellett
-#   találhatók a fenti listában.
+#   Ez egyéni motorparaméterek beállítására használható. Az egyes paraméterek
+#   alapértelmezett értékei a paraméter neve mellett találhatók a fenti listában.
 #diag0_pin:
 #diag1_pin:
 #   A mikrovezérlő tűje a TMC5160 chip egyik DIAG vonalához csatlakozik.
-#   Csak egyetlen DIAG tűt kell megadni. A tű "active low", ezért általában
-#   "^!" előtagja van. Ennek beállítása egy
-#   „tmc5160_stepper_x:virtual_endstop” virtuális tűt hoz létre, amely a
-#   léptető endstop_pin-jeként használható. Ez lehetővé teszi az „érzékelő
-#   nélküli kezdőpont felvétel” funkciót. (Győződj meg arról, hogy a
-#   driver_SGT-t is megfelelő érzékenységi értékre állítja be.)
-#   Az alapértelmezés az, hogy nem engedélyezi az érzékelő nélküli
-#   kezdőpont felvételt.
+#   Csak egyetlen diag tűt kell megadni. A tű "aktív alacsony", ezért általában
+#   "^!" előtagja van. Ennek beállítása egy „tmc5160_stepper_x:virtual_endstop”
+#   virtuális tűt hoz létre, amely a léptető endstop_pin-jeként használható.
+#   Ez lehetővé teszi az „érzékelő nélküli kezdőpont” funkciót.
+#   (Győződj meg arról, hogy a driver_SGT is megfelelő érzékenységi értékre van állítva.)
+#   Az alapértelmezés az, hogy nem engedélyezett az érzékelő nélküli kezdőpont.
 ```
 
 ## Futás-idejű léptetőmotor áram konfiguráció

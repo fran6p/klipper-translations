@@ -1,8 +1,8 @@
-# Ale Ale <ale.99.ale@gmail.com>, 2022.
+# Ale Ale <ale.99.ale@gmail.com>, 2022, 2023.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: yifeiding@protonmail.com\n"
-"PO-Revision-Date: 2022-12-26 16:42+0000\n"
+"PO-Revision-Date: 2023-02-04 04:39+0000\n"
 "Last-Translator: Ale Ale <ale.99.ale@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/klipper/"
 "config_changes/it/>\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 4.16-dev\n"
 
 msgid ""
 "This document covers recent software changes to the config file that are not"
@@ -988,6 +988,34 @@ msgstr ""
 "l'homing g28 andasse nella direzione z negativa. Ora, uno z_hop viene "
 "eseguito dopo g28 solo se risulta in un hop positivo, rispecchiando il "
 "comportamento dello z_hop che si verifica prima dell'homing g28."
+
+#: docs/Config_Changes.md:block 5 (paragraph)
+msgid ""
+"20230201: The `[bed_mesh]` module no longer loads the `default` profile on "
+"startup. It is recommended that users who use the `default` profile add "
+"`BED_MESH_PROFILE LOAD=default` to their `START_PRINT` macro (or to their "
+"slicer's \"Start G-Code\" configuration when applicable)."
+msgstr ""
+"20230201: Il modulo `[bed_mesh]` non carica più il profilo `default` "
+"all'avvio. Si consiglia agli utenti che usano il profilo `default` di "
+"aggiungere `BED_MESH_PROFILE LOAD=default` alla loro macro `START_PRINT` (o "
+"alla configurazione \"Start G-Code\" del loro slicer quando applicabile)."
+
+#: docs/Config_Changes.md:block 6 (paragraph)
+msgid ""
+"20230103: It is now possible with the flash-sdcard.sh script to flash both "
+"variants of the Bigtreetech SKR-2, STM32F407 and STM32F429. This means that "
+"the original tag of btt-skr2 now has changed to either btt-skr-2-f407 or "
+"btt-skr-2-f429."
+msgstr ""
+"20230103: Ora è possibile con lo script flash-sdcard.sh eseguire il flashing "
+"di entrambe le varianti di Bigtreetech SKR-2, STM32F407 e STM32F429. Ciò "
+"significa che il tag originale di btt-skr2 ora è cambiato in btt-skr-2-f407 "
+"o btt-skr-2-f429."
+
+#: docs/Config_Changes.md:block 7 (paragraph)
+msgid "20221128: Klipper v0.11.0 released."
+msgstr "20221128: rilascio di Klipper v0.11.0."
 
 #~ msgid ""
 #~ "20211104: The \"step pulse duration\" option in \"make menuconfig\" has been"

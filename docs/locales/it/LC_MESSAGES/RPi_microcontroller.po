@@ -1,18 +1,19 @@
 # Ernesto Lo Valvo <elovalvo@gmail.com>, 2021.
 # Yifei Ding <dingyifeiair@gmail.com>, 2021.
 # Dex94 <Dasvaresu@dr.com>, 2022.
-# Ale Ale <ale.99.ale@gmail.com>, 2022.
+# Ale Ale <ale.99.ale@gmail.com>, 2022, 2023.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: yifeiding@protonmail.com\n"
-"PO-Revision-Date: 2022-08-01 07:21+0000\n"
+"PO-Revision-Date: 2023-02-04 04:39+0000\n"
 "Last-Translator: Ale Ale <ale.99.ale@gmail.com>\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/klipper/rpi_microcontroller/it/>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/klipper/"
+"rpi_microcontroller/it/>\n"
 "Language: it\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.16-dev\n"
 
 msgid ""
 "This document describes the process of running Klipper on a RPi and use the "
@@ -133,15 +134,6 @@ msgstr ""
 msgid "For example on a RPi 3B+ where klipper use the GPIO20 for a switch:"
 msgstr ""
 "Per esempio su un RPi 3B+ dove klipper usa il GPIO20 per un interruttore:"
-
-msgid ""
-"cd ~/klipper/\n"
-"sudo cp \"./scripts/klipper-mcu-start.sh\" /etc/init.d/klipper_mcu\n"
-"sudo update-rc.d klipper_mcu defaults\n"
-msgstr ""
-"cd ~/klipper/\n"
-"sudo cp \"./scripts/klipper-mcu-start.sh\" /etc/init.d/klipper_mcu\n"
-"sudo update-rc.d klipper_mcu defaults\n"
 
 msgid ""
 "cd ~/klipper/\n"
@@ -515,6 +507,25 @@ msgstr ""
 " rate su 400000: aggiungendo/deselezionando "
 "`dtparam=i2c_arm=on,i2c_arm_baudrate=400000` in `/boot/config.txt` (o `/ "
 "boot/firmware/config.txt` in alcune distribuzioni)."
+
+#: docs/RPi_microcontroller.md:block 9 (code)
+msgid ""
+"cd ~/klipper/\n"
+"sudo cp ./scripts/klipper-mcu.service /etc/systemd/system/\n"
+"sudo systemctl enable klipper-mcu.service\n"
+msgstr ""
+"cd ~/klipper/\n"
+"sudo cp ./scripts/klipper-mcu.service /etc/systemd/system/\n"
+"sudo systemctl enable klipper-mcu.service\n"
+
+#~ msgid ""
+#~ "cd ~/klipper/\n"
+#~ "sudo cp \"./scripts/klipper-mcu-start.sh\" /etc/init.d/klipper_mcu\n"
+#~ "sudo update-rc.d klipper_mcu defaults\n"
+#~ msgstr ""
+#~ "cd ~/klipper/\n"
+#~ "sudo cp \"./scripts/klipper-mcu-start.sh\" /etc/init.d/klipper_mcu\n"
+#~ "sudo update-rc.d klipper_mcu defaults\n"
 
 #~ msgid ""
 #~ "On Rasperry and on many clones the pins exposed on the GPIO belong to the "

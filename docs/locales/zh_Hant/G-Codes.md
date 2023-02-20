@@ -145,7 +145,7 @@ The following commands are available when an [angle config section](Config_Refer
 
 ### [delayed_gcode]
 
-如果啟用了 [delayed_gcode config section](Config_Reference.md#delayed_gcode)，則啟用以下命令（另請參閱 [template guide](Command_Templates.md#delayed-gcodes)）。
+如果啟用了 [delayed_gcode config section](Config_Reference.md#delayed_gcode)，則啟用以下命令（另請參閱  [template guide](Command_Templates.md#delayed-gcodes)）。
 
 #### UPDATE_DELAYED_GCODE
 
@@ -372,7 +372,7 @@ The force_move module is automatically loaded, however some commands require set
 
 ### [hall_filament_width_sensor]
 
-當啟用 [tsl1401cl filament width sensor config section](Config_Reference.md#tsl1401cl_filament_width_sensor) 或 [hall filament width sensor config section](Config_Reference.md#hall_filament_width_sensor) 時，以下命令可用（另請參閱 [TSLl401CL Filament Width Sensor](TSL1401CL_Filament_Width_Sensor.md) 和 [Hall Filament Width Sensor](Hall_Filament_Width_Sensor.md))：
+當啟用 [tsl1401cl filament width sensor config section](Config_Reference.md#tsl1401cl_filament_width_sensor) 或 [hall filament width sensor config section](Config_Reference.md#hall_filament_width_sensor) 時，以下命令可用（另請參閱 [TSLl401CL Filament Width Sensor]( TSL1401CL_Filament_Width_Sensor.md) 和 [Hall Filament Width Sensor](Hall_Filament_Width_Sensor.md))：
 
 #### QUERY_FILAMENT_WIDTH
 
@@ -488,7 +488,9 @@ The following command is available when any of the [led config sections](Config_
 
 #### SET_PIN
 
-`SET_PIN PIN=config_name VALUE=<值> CYCLE_TIME=<週期時間>`: 注意 - 硬體PWM目前不支援CYCLE_TIME參數，將使用配置中定義的週期時間。
+`SET_PIN PIN=config_name VALUE=<value> [CYCLE_TIME=<cycle_time>]`: Set the pin to the given output `VALUE`. VALUE should be 0 or 1 for "digital" output pins. For PWM pins, set to a value between 0.0 and 1.0, or between 0.0 and `scale` if a scale is configured in the output_pin config section.
+
+Some pins (currently only "soft PWM" pins) support setting an explicit cycle time using the CYCLE_TIME parameter (specified in seconds). Note that the CYCLE_TIME parameter is not stored between SET_PIN commands (any SET_PIN command without an explicit CYCLE_TIME parameter will use the `cycle_time` specified in the output_pin config section).
 
 ### [palette2]
 

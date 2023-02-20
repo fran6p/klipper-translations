@@ -173,7 +173,7 @@ faulty_region_4_max: 45.0, 210.0
 
 메드 메쉬 캘리브레이션을 위해 프로빙 과정을 초기화하라.
 
-메쉬는 `PROFILE 파라메타로 특정된 프로필이나 특정되지 않았다면 `default`에 저장된다. 만일`METHOD=manual`이 선택되있다면 수동 측정이 될 것이다. 자동과 수동 측정사이의 변환이 될 때에는 메쉬 포인트가 자동으로 적용될 것이다.
+메쉬는 `PROFILE 파라메타로 특정된 프로필이나 특정되지 않았다면 `default` 에 저장된다. 만일 `METHOD=manual`이 선택되있다면 수동 측정이 될 것이다. 자동과 수동 측정사이의 변환이 될 때에는 메쉬 포인트가 자동으로 적용될 것이다.
 
 측정된 영역을 수정하기 위해 메쉬 파라메터를 설정하는것이 가능하다. 아래 방법을 사용하면 된다. :
 
@@ -204,6 +204,19 @@ BED_MESH_CALIBRATE가 발생할 때마다 현재 상태가 *default*프로필에
 `BED_MESH_PROFILE REMOVE=default`
 
 어떤 다른 저장된 프로필도 같은 방식으로 삭제될 수 있다. 그저 제거하기 원하는 프로필 이름을 *default* 대신에 써넣으면 된다.
+
+#### Loading the default profile
+
+Previous versions of `bed_mesh` always loaded the profile named *default* on startup if it was present. This behavior has been removed in favor of allowing the user to determine when a profile is loaded. If a user wishes to load the `default` profile it is recommended to add `BED_MESH_PROFILE LOAD=default` to either their `START_PRINT` macro or their slicer's "Start G-Code" configuration, whichever is applicable.
+
+Alternatively the old behavior of loading a profile at startup can be restored with a `[delayed_gcode]`:
+
+```ini
+[delayed_gcode bed_mesh_init]
+initial_duration: .01
+gcode:
+  BED_MESH_PROFILE LOAD=default
+```
 
 ### 결과출력
 

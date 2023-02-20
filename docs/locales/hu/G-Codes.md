@@ -339,8 +339,8 @@ A G-kód modul automatikusan betöltődik.
 
 A következő szabványos G-kód parancsok elérhetők, ha a [gcode_arcs config section](Config_Reference.md#gcode_arcs) engedélyezve van:
 
-- Arc Move Clockwise (G2), Arc Move Counter-clockwise (G3): `G2|G3 [X<pos>] [Y<pos>] [Z<pos>] [E<pos>] [F<speed>] I<value> J<value>|I<value> K<value>|J<value> K<value>`
-- Arc Plane Select: G17 (XY plane), G18 (XZ plane), G19 (YZ plane)
+- Arc Move Clockwise (G2), Arc Move Counter-clockwise (G3): `G2|G3 [X<hely>] [Y<hely>] [Z<hely>] [E<hely>] [F<sebesség>] I<érték> J<érték>|I<érték> K<érték>|J<érték> K<érték>`
+- Arc sík kiválasztása: G17 (XY-sík), G18 (XZ-sík), G19 (YZ-sík)
 
 ### [gcode_macro]
 
@@ -488,7 +488,9 @@ A következő parancs akkor érhető el, ha az [output_pin konfigurációs szaka
 
 #### SET_PIN
 
-`SET_PIN PIN=config_name VALUE=<value> CYCLE_TIME=<cycle_time>`: Megjegyzés: A hardveres PWM jelenleg nem támogatja a CYCLE_TIME paramétert, és a konfigurációban meghatározott ciklusidőt használja.
+`SET_PIN PIN=config_name VALUE=<érték> [CYCLE_TIME=<ciklus_idő>]`: A tű beállítása a megadott kimenetre `VALUE`. A VALUE-nak 0-nak vagy 1-nek kell lennie a "digitális" kimeneti tűk esetében. PWM-tüskék esetén 0,0 és 1,0 közötti értékre, vagy 0,0 és `scale` közötti értékre állítsuk be, ha a kimeneti tüske konfigurációs szakaszban scale van beállítva.
+
+Néhány tű (jelenleg csak a "soft PWM" tű) támogatja az explicit ciklusidő beállítását a CYCLE_TIME paraméter segítségével (másodpercben megadva). Figyelembe kell venni, hogy a CYCLE_TIME paraméter nem tárolódik a SET_PIN parancsok között (minden explicit CYCLE_TIME paraméter nélküli SET_PIN parancs a `cycle_time` címen a output_pin konfigurációs szakaszban megadott ciklusidőt használja).
 
 ### [palette2]
 

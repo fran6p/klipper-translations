@@ -205,6 +205,19 @@ Meg kell jegyezni, hogy minden alkalommal, amikor a BED_MESH_CALIBRATE használa
 
 Bármely más elmentett profil ugyanígy eltávolítható, a *default* helyettesítve az eltávolítani kívánt névvel.
 
+#### Az alapértelmezett profil betöltése
+
+A `bed_mesh` korábbi verziói indításkor mindig betöltötték az *alapértelmezett* nevű profilt, ha az jelen volt. Ezt a viselkedést megszüntettük annak érdekében, hogy a felhasználó határozhassa meg, mikor töltődik be egy profil. Ha a felhasználó az `alapértelmezett` profilt kívánja betölteni, ajánlott a `BED_MESH_PROFILE LOAD=default` hozzáadása a `START_PRINT` makróhoz vagy a szeletelő "Start G-Code" konfigurációjához, attól függően, hogy melyik alkalmazandó.
+
+Alternatívaként a `[delayed_gcode]` segítségével visszaállítható a profil indításkor történő betöltésének régi viselkedése:
+
+```ini
+[delayed_gcode bed_mesh_init]
+initial_duration: .01
+gcode:
+  BED_MESH_PROFILE LOAD=default
+```
+
 ### Kimenet
 
 `BED_MESH_OUTPUT PGP=[0 | 1]`

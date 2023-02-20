@@ -113,7 +113,7 @@ Les commandes suivantes sont disponibles lorsque la section [config bed_screws](
 
 #### BED_SCREWS_ADJUST
 
-`BED_SCREWS_ADJUST`: Cette commande fait appel à l'outil de réglage des vis du bed. Elle commandera la buse à différents endroits (tels que définis dans le fichier de configuration) et permettra d'ajuster les vis du bed afin que celui-ci et la buse soient à distance constante.
+`BED_SCREWS_ADJUST`: Cette commande fait appel à l'outil de réglage des vis du bed. Elle commandera la buse à différents endroits (tels que définis dans le fichier de configuration) et permettra d'ajuster les vis du bed afin  que celui-ci et la buse soient à distance constante.
 
 ### [bed_tilt]
 
@@ -488,7 +488,9 @@ La commande suivante est disponible lorsqu'une section [output_pin config](Confi
 
 #### SET_PIN
 
-`SET_PIN PIN=nom_de_la_configuration VALUE=<valeur> CYCLE_TIME=<durée_du_cycle>` : Note - le PWM matériel ne supporte pas actuellement le paramètre CYCLE_TIME et utilisera la durée de cycle définie dans la configuration.
+`SET_PIN PIN=nom_config VALUE=<valeur> [CYCLE_TIME=<durée_du_cycle>]` : Fixe la broche à la sortie donnée `VALUE`. VALUE doit être 0 ou 1 pour les broches de sortie "numériques". Pour les broches PWM, définissez une valeur entre 0.0 et 1.0, ou entre 0.0 et `scale` si une échelle est configurée dans la section output_pin config.
+
+Certaines broches (actuellement seulement les broches "soft PWM") supportent la définition d'un temps de cycle explicite en utilisant le paramètre CYCLE_TIME (spécifié en secondes). Notez que le paramètre CYCLE_TIME n'est pas stocké entre les commandes SET_PIN (toute commande SET_PIN sans paramètre CYCLE_TIME explicite utilisera le `cycle_time` spécifié dans la section output_pin config).
 
 ### [palette2]
 
@@ -628,7 +630,7 @@ Les commandes supplémentaires suivantes sont également disponibles.
 - `RESPOND TYPE=echo MSG="<message>" ` : affiche le message précédé par `echo : `.
 - `RESPOND TYPE=echo_no_space MSG="<message>"` : renvoie le message précédé de `echo:` sans espace entre le préfixe et le message, utile pour la compatibilité avec certains plugins octoprint qui attendent un formatage très spécifique.
 - `RESPOND TYPE=command MSG="<message>"` : renvoie le message précédé de `// `. OctoPrint peut être configuré pour répondre à ces messages (par exemple, `RESPOND TYPE=command MSG=action:pause`).
-- `RESPOND TYPE=error MSG="<message>" ` : affiche le message précédé par `!!!`.
+- `RESPOND TYPE=error MSG="<message>" ` : affiche le message précédé par ` !!! `.
 - `RESPOND PREFIX=<prefix> MSG="<message>"` : renvoie le message précédé de `<prefix>`. (Le paramètre `PREFIX` est prioritaire sur le paramètre `TYPE`).
 
 ### [save_variables]
