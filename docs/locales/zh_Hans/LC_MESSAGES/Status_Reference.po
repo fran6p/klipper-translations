@@ -1,15 +1,16 @@
-# Yifei Ding <dingyifeiair@gmail.com>, 2021, 2022.
+# Yifei Ding <dingyifeiair@gmail.com>, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: yifeiding@protonmail.com\n"
-"PO-Revision-Date: 2022-12-25 05:50+0000\n"
+"PO-Revision-Date: 2023-04-19 19:52+0000\n"
 "Last-Translator: Yifei Ding <dingyifeiair@gmail.com>\n"
-"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/klipper/status_reference/zh_Hans/>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"klipper/status_reference/zh_Hans/>\n"
 "Language: zh_Hans\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 4.18-dev\n"
 
 msgid ""
 "This document is a reference of printer status information available in "
@@ -1050,6 +1051,8 @@ msgid ""
 "`info.current_layer`: The current layer value of the last "
 "`SET_PRINT_STATS_INFO CURRENT_LAYER=<value>` G-Code command."
 msgstr ""
+"`info.current_layer`: 上一条 `SET_PRINT_STATS_INFO CURRENT_LAYER=<值>` "
+"G代码命令的当前层值。"
 
 #: docs/Status_Reference.md:block 124 (header)
 msgid "z_thermal_adjust"
@@ -1093,12 +1096,12 @@ msgstr "`z_adjust_ref_temperature`：用于计算Z `current_z_adjust`的当前�
 
 #: docs/Status_Reference.md:block 93 (header)
 msgid "screws_tilt_adjust"
-msgstr ""
+msgstr "screws_tilt_adjust"
 
 #: docs/Status_Reference.md:block 94 (paragraph)
 msgid ""
 "The following information is available in the `screws_tilt_adjust` object:"
-msgstr ""
+msgstr "以下信息可在`screws_tilt_adjust`对象中获取："
 
 #: docs/Status_Reference.md:block 95 (unordered list)
 msgid ""
@@ -1106,35 +1109,12 @@ msgid ""
 "included the `MAX_DEVIATION` parameter and any of the probed screw points "
 "exceeded the specified `MAX_DEVIATION`."
 msgstr ""
-
-#: docs/Status_Reference.md:block 95 (unordered list)
-msgid ""
-"`results`: A list of the probed screw locations. Each entry in the list will"
-" be a dictionary containing the following keys:"
-msgstr ""
-
-#: docs/Status_Reference.md:block 95 (unordered list)
-msgid "`name`: The name of the screw as specified in the config file."
-msgstr ""
-
-#: docs/Status_Reference.md:block 95 (unordered list)
-msgid "`x`: The X coordinate of the screw as specified in the config file."
-msgstr ""
-
-#: docs/Status_Reference.md:block 95 (unordered list)
-msgid "`y`: The Y coordinate of the screw as specified in the config file."
-msgstr ""
+"`error`: 如果最近的 `SCREWS_TILT_CALCULATE` 命令包含了 `MAX_DEVIATION` 参数，"
+"并且任何一个已探测的螺丝坐标超过了指定的 `MAX_DEVIATION`，则返回 True。"
 
 #: docs/Status_Reference.md:block 95 (unordered list)
 msgid "`z`: The measured Z height of the screw location."
-msgstr ""
-
-#: docs/Status_Reference.md:block 95 (unordered list)
-msgid ""
-"`sign`: A string specifying the direction to turn to screw for the necessary"
-" adjustment. Either \"CW\" for clockwise or \"CCW\" for counterclockwise. "
-"The base screw will not have a `sign` key."
-msgstr ""
+msgstr "`z`: 螺丝坐标测量的 Z 高度。"
 
 #: docs/Status_Reference.md:block 95 (unordered list)
 msgid ""
@@ -1143,6 +1123,71 @@ msgid ""
 " number of \"minutes of a clock face\" representing a partial screw turn. "
 "(E.g. \"01:15\" would mean to turn the screw one and a quarter revolutions.)"
 msgstr ""
+"`adjust`: 调整螺丝的圈数，格式为 \"HH:MM\"，其中 \"HH\" 表示完整螺丝圈数，"
+"\"MM\" 表示代表部分螺丝圈数的 \"时钟面的分钟数\""
+"。（例如，“01:15”表示旋转螺丝一圈和四分之一圈。）"
+
+#: docs/Status_Reference.md:block 29 (unordered list)
+msgid ""
+"`motion_queue`: The name of the extruder that this extruder stepper is "
+"currently synchronized to. This is reported as `None` if the extruder "
+"stepper is not currently associated with an extruder."
+msgstr "`motion_queue`：当前与该挤出机步进电机同步的挤出机名称。如果该挤出机步进电机"
+"目前未与任何挤出机相关联，则报告为`None`。"
+
+#: docs/Status_Reference.md:block 86 (unordered list)
+msgid "`name`: Returns the name of the probe in use."
+msgstr "`name`：返回正在使用的探针的名称。"
+
+#: docs/Status_Reference.md:block 95 (unordered list)
+msgid "`results[\"<screw>\"]`: A dictionary containing the following keys:"
+msgstr "`results[\"<螺丝>\"]`：包含以下键的字典："
+
+#: docs/Status_Reference.md:block 95 (unordered list)
+msgid ""
+"`sign`: A string specifying the direction to turn to screw for the necessary"
+" adjustment. Either \"CW\" for clockwise or \"CCW\" for counterclockwise."
+msgstr "`sign`：一个字符串，指定进行必要的调整时旋转螺丝的方向。“CW”表示顺时针，“CCW”"
+"表示逆时针。"
+
+#: docs/Status_Reference.md:block 95 (unordered list)
+msgid "`is_base`: Returns True if this is the base screw."
+msgstr "`is_base` ：如果这是基准螺丝，则返回True。"
+
+#: docs/Status_Reference.md:block 99 (header)
+msgid "stepper_enable"
+msgstr "stepper_enable"
+
+#: docs/Status_Reference.md:block 100 (paragraph)
+msgid ""
+"The following information is available in the `stepper_enable` object (this "
+"object is available if any stepper is defined):"
+msgstr "以下信息可在`stepper_enable` "
+"对象中获得（这个对象在定义了任何步进电机后可用）："
+
+#: docs/Status_Reference.md:block 101 (unordered list)
+msgid "`steppers[\"<stepper>\"]`: Returns True if the given stepper is enabled."
+msgstr "`steppers[\"<步进器>\"]` ：如果给定的步进器被启用，返回True。"
+
+#~ msgid ""
+#~ "`results`: A list of the probed screw locations. Each entry in the list will"
+#~ " be a dictionary containing the following keys:"
+#~ msgstr ""
+
+#~ msgid "`name`: The name of the screw as specified in the config file."
+#~ msgstr ""
+
+#~ msgid "`x`: The X coordinate of the screw as specified in the config file."
+#~ msgstr ""
+
+#~ msgid "`y`: The Y coordinate of the screw as specified in the config file."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "`sign`: A string specifying the direction to turn to screw for the necessary"
+#~ " adjustment. Either \"CW\" for clockwise or \"CCW\" for counterclockwise. "
+#~ "The base screw will not have a `sign` key."
+#~ msgstr ""
 
 #~ msgid "neopixel / dotstar"
 #~ msgstr "neopixel / dotstar"

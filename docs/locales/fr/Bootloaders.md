@@ -12,7 +12,7 @@ Ce document tente de décrire les chargeurs de démarrage courants, les étapes 
 
 De manière générale, le projet Arduino est une bonne référence pour les chargeurs de démarrage et les procédures de flashage sur les microcontrôleurs Atmel Atmega 8 bits. En particulier, le fichier "boards.txt" : <https://github.com/arduino/Arduino/blob/1.8.5/hardware/arduino/avr/boards.txt> est une référence utile.
 
-Pour flasher le chargeur de démarrage, les puces AVR nécessitent un outil de flashage matériel externe (qui communique avec la puce à l'aide de SPI). Cet outil peut être acheté (par exemple, effectuez une recherche sur le Web pour "avr isp", "arduino isp" ou "usb tiny isp"). Il est également possible d'utiliser un autre Arduino ou Raspberry Pi pour flasher un chargeur de démarrage AVR (par exemple, faites une recherche sur le Web pour "programmer un avr à l'aide de raspberry pi"). Les exemples ci-dessous sont écrits en supposant qu'un appareil de type "AVR ISP Mk2" est utilisé.
+Pour flasher le chargeur de démarrage, les puces AVR nécessitent un outil de flashage matériel externe (qui communique avec la puce à l'aide de SPI). Cet outil peut être acheté (par exemple, effectuez une recherche sur internet avec "avr isp", "arduino isp" ou "usb tiny isp"). Il est également possible d'utiliser un autre Arduino ou Raspberry Pi pour flasher un chargeur de démarrage AVR (par exemple, faites une recherche sur le internet pour "programmer un avr à l'aide de raspberry pi"). Les exemples ci-dessous sont écrits en supposant qu'un appareil de type "AVR ISP Mk2" est utilisé.
 
 Le logiciel "avrdude" est l'outil le plus utilisé pour flasher les puces atmega (à la fois pour flasher le chargeur de démarrage et l'application).
 
@@ -238,7 +238,7 @@ Le chargeur de démarrage ne s'exécute généralement que pendant une courte p�
 
 Le [chargeur de démarrage HID](https://github.com/Serasidis/STM32_HID_Bootloader) est un chargeur de démarrage compact et sans pilote capable de flasher via USB. Un [fork avec des builds spécifiques au SKR Mini E3 1.2](https://github.com/Arksine/STM32_HID_Bootloader/releases/latest) est également disponible.
 
-Pour les cartes STM32F103 génériques telles que la blue pill, il est possible de flasher le chargeur de démarrage via un port série 3.3v en utilisant stm32flash comme indiqué dans la section stm32duino ci-dessus, en remplaçant le nom de fichier par le binaire du chargeur de démarrage souhaité (c'est-à-dire : hid_generic_pc13.bin pour la blue pill).
+Pour les cartes STM32F103 génériques telles que la 'blue pill', il est possible de flasher le chargeur de démarrage via une ligne série 3,3 V en utilisant stm32flash comme indiqué dans la section stm32duino ci-dessus, en remplaçant le nom de fichier par le binaire du chargeur de démarrage hid souhaité (c'est-à-dire : hid_generic_pc13.bin pour la 'blue pill').
 
 Il n'est pas possible d'utiliser stm32flash pour le SKR Mini E3 car la broche boot0 est directement liée à la terre et non connectée via des broches d'en-tête. Il est recommandé d'utiliser un STLink V2 avec le programmeur STM32Cube pour flasher le bootloader. Si vous n'avez pas accès à un STLink, il est également possible d'utiliser un [Raspberry Pi et OpenOCD](#running-openocd-on-the-raspberry-pi) avec la configuration de puce suivante :
 
@@ -309,13 +309,13 @@ OU si klipper a déjà été flashé :
 make flash FLASH_DEVICE=/dev/ttyACM0
 ```
 
-Il peut être nécessaire d'entrer manuellement dans le chargeur de démarrage, cela peut être fait en définissant "boot 0" au niveau bas et "boot 1" au niveau haut. Sur le SKR Mini E3 "Boot 1" n'est pas disponible, vous pouvez donc le faire en mettant la broche PA2 au niveau bas si vous avez flashé "hid_btt_skr_mini_e3.bin". Cette broche est étiquetée "TX0" sur l'en-tête TFT dans le document "PIN" du SKR Mini E3. Il y a une broche de terre à côté de PA2 que vous pouvez utiliser pour mettre PA2 à 0.
+Il peut être nécessaire d'entrer manuellement dans le chargeur de démarrage, cela peut être fait en définissant "boot 0" au niveau bas et "boot 1" au niveau haut. Sur la SKR Mini E3 "Boot 1" n'est pas disponible, vous pouvez donc le faire en mettant la broche PA2 au niveau bas si vous avez flashé "hid_btt_skr_mini_e3.bin". Cette broche est étiquetée "TX0" sur le connecteur TFT dans le document "PIN" du SKR Mini E3. Il y a une broche de terre à côté de PA2 que vous pouvez utiliser pour mettre PA2 au niveau bas.
 
 ### STM32F103/STM32F072 avec chargeur de démarrage MSC
 
 Le [chargeur de démarrage MSC](https://github.com/Telekatz/MSC-stm32f103-bootloader) est un chargeur de démarrage sans pilote capable de flasher via USB.
 
-Il est possible de flasher le chargeur de démarrage via un port série 3.3v en utilisant stm32flash comme indiqué dans la section stm32duino ci-dessus, en remplaçant le nom de fichier par le binaire du chargeur de démarrage MSC souhaité (c'est-à-dire : MSCboot-Bluepill.bin pour la blue pill).
+Il est possible de flasher le chargeur de démarrage via une ligne série 3,3 V en utilisant stm32flash comme indiqué dans la section stm32duino ci-dessus, en remplaçant le nom de fichier par le binaire du chargeur de démarrage MSC souhaité (c'est-à-dire : MSCboot-Bluepill.bin pour la 'blue pill).
 
 Pour les cartes STM32F072, il est également possible de flasher le bootloader via USB (via DFU) avec quelque chose comme :
 
@@ -331,7 +331,7 @@ Le chargeur de démarrage peut être activé en appuyant deux fois sur le bouton
 
 Le chargeur de démarrage [CanBoot](https://github.com/Arksine/CanBoot) offre une option pour télécharger le micrologiciel Klipper via le CANBUS. Le chargeur de démarrage lui-même est dérivé du code source de Klipper. Actuellement, CanBoot prend en charge les modèles STM32F103, STM32F042 et STM32F072.
 
-Il est recommandé d'utiliser un programmeur ST-Link pour flasher CanBoot, mais il devrait être possible de flasher en utilisant `stm32flash` sur les appareils STM32F103 et `dfu-util` sur les appareils STM32F042/STM32F072. Consultez les sections précédentes de ce document pour obtenir des instructions sur ces méthodes de flash, en remplaçant `canboot.bin` par le nom de fichier, le cas échéant. Le lien CanBoot ci-dessus fournit des instructions pour créer le chargeur de démarrage.
+Il est préférable d'utiliser un programmeur ST-Link pour flasher CanBoot, mais il est possible de le flasher en utilisant `stm32flash` sur les appareils STM32F103 et `dfu-util` sur les appareils STM32F042/STM32F072. Consultez les sections précédentes de ce document pour obtenir des instructions sur ces méthodes de flash, en remplaçant `canboot.bin` par le nom de fichier, le cas échéant. Le référentiel CanBoot lié ci-dessus fournit des instructions pour créer le chargeur de démarrage.
 
 La première fois que CanBoot a été flashé, il devrait détecter qu'aucune application n'est présente et entrer dans le chargeur de démarrage. Si cela ne se produit pas, il est possible d'entrer dans le chargeur de démarrage en appuyant deux fois de suite sur le bouton de réinitialisation.
 
@@ -355,9 +355,9 @@ Lors de la création de Klipper pour une utilisation avec CanBoot, sélectionnez
 
 ## Micro-contrôleurs STM32F4 (SKR Pro 1.1)
 
-Les microcontrôleurs STM32F4 sont équipés d'un chargeur de démarrage système intégré capable de flasher via USB (via DFU), série 3,3 V et diverses autres méthodes (voir le document STM AN2606 pour plus d'informations). Certaines cartes STM32F4, telles que le SKR Pro 1.1, ne peuvent pas entrer dans le chargeur de démarrage DFU. Le chargeur de démarrage HID est disponible pour les cartes basées sur STM32F405/407 si l'utilisateur préfère flasher sur USB plutôt que d'utiliser la carte SD. Notez que vous devrez peut-être configurer et construire une version spécifique à votre carte, une [version pour le SKR Pro 1.1 est disponible ici](https://github.com/Arksine/STM32_HID_Bootloader/releases/latest).
+Les microcontrôleurs STM32F4 sont équipés d'un chargeur de démarrage système intégré capable de flasher via USB (via DFU), série 3,3 V et diverses autres méthodes (voir le document STM AN2606 pour plus d'informations). Certaines cartes STM32F4, telles que le SKR Pro 1.1, ne peuvent pas passer en mode DFU. Le chargeur de démarrage HID est disponible pour les cartes basées sur STM32F405/407 si l'utilisateur préfère flasher sur USB plutôt que d'utiliser la carte SD. Notez que vous devrez peut-être configurer et construire une version spécifique à votre carte, une [version pour le SKR Pro 1.1 est disponible ici](https://github.com/Arksine/STM32_HID_Bootloader/releases/latest).
 
-À moins que votre carte ne soit compatible DFU, la méthode de flash la plus accessible est probablement via un port série 3.3v, qui suit la même procédure que [flasher le STM32F103 avec stm32flash](#stm32f103-micro-controllers-blue-pill-devices). Par exemple :
+À moins que votre carte ne soit compatible DFU, la méthode de flashla plus accessible est probablement via une ligne série 3,3 V, qui suit la même procédure que [flasher le STM32F103 avec stm32flash](#stm32f103-micro-controllers-blue-pill-devices). Par exemple :
 
 ```
 wget https://github.com/Arksine/STM32_HID_Bootloader/releases/download/v0.5-beta/hid_bootloader_SKR_PRO.bin

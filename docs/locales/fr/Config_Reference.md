@@ -286,61 +286,62 @@ Seuls les paramètres spécifiques aux imprimantes deltesiennes sont décrits ic
 [printer]
 kinematics: deltesian
 max_z_velocity:
-#    Pour les imprimantes deltesiennes, ceci limite la vitesse maximale (en mm/s) des
-#    déplacements avec un mouvement sur l'axe z. Ce paramètre peut être utilisé pour
-#    réduire la vitesse maximale des déplacements vers le haut/bas (qui nécessitent un
-#    taux de pas plus élevé que les autres mouvements sur une imprimante deltesienne).
-#    La valeur par défaut est d'utiliser max_velocity pour max_z_velocity.
+# Pour les imprimantes deltésiennes, cela limite la vitesse maximale (en mm/s) de
+# déplacement avec le mouvement de l'axe z. Ce réglage peut être utilisé pour réduire la
+# vitesse maximale des mouvements vers le haut/vers le bas (qui nécessitent un taux de pas plus élevé
+# que les autres mouvements sur une imprimante deltésienne). La valeur par défaut est d'utiliser
+# max_velocity pour max_z_velocity.
 #max_z_accel:
-#    Ceci définit l'accélération maximale (en mm/s^2) du mouvement le long de l'axe z.
-#    Ce paramètre peut être utile si l'imprimante peut atteindre une plus grande
-#    accélération sur les mouvements XY que sur les mouvements Z (par exemple, lors
-#    de l'utilisation de la compensation de la résonance).
-#    La valeur par défaut est d'utiliser max_accel pour max_z_accel.
-#minimum_z_position : 0
-#    Position Z minimale à laquelle l'utilisateur peut ordonner à la tête de se déplacer.
-#    La valeur par défaut est 0.
+# Ceci définit l'accélération maximale (en mm/s²) du mouvement le long
+# l'axe z. Ce paramètre peut être utile si l'imprimante peut atteindre des
+# accélération sur les mouvements XY par rapport aux mouvements Z (par exemple, lors de l'utilisation du shaper d'entrée).
+# La valeur par défaut est d'utiliser max_accel pour max_z_accel.
+#minimum_z_position: 0
+# La position Z minimale que l'utilisateur peut commander à la tête de se déplacer
+# pour. La valeur par défaut est 0.
 #min_angle: 5
-#    Ceci représente l'angle minimum (en degrés) par rapport à l'horizontale que les bras
-#    deltesiens sont autorisés à atteindre. Ce paramètre est destiné à empêcher les bras de
-#    devenir complètement horizontaux, ce qui risquerait de provoquer une inversion
-#    accidentelle de l'axe XZ.
-#    La valeur par défaut est 5.
+# Ceci représente l'angle minimum (en degrés) par rapport à l'horizontale
+# que les bras deltésiens sont autorisés à atteindre. Ce paramètre est
+# destiné à empêcher les bras de devenir complètement horizontaux,
+# qui risquerait d'inverser accidentellement l'axe XZ. La valeur par défaut est 5.
 #print_width:
-#    La distance (en mm) des coordonnées X valides de la tête de l'outil. On peut utiliser ce
-#    paramètre pour personnaliser la vérification de la plage des mouvements de la tête de
-#    l'outil. Si une grande valeur est spécifiée ici, il peut être possible de faire entrer la tête
-#    de l'outil en collision avec une colonne. Ce paramètre correspond généralement à la
-#    largeur du banc (en mm).
+# La distance (en mm) des coordonnées X valides de la tête d'outil. On peut utiliser
+# ce paramètre pour personnaliser la vérification de la plage des mouvements de la tête d'outil. Si
+# une grande valeur est spécifiée ici alors il peut être possible de commander
+# la tête d'outil en collision avec une tour. Ce paramètre généralement
+# correspond à la largeur du lit (en mm).
 #slow_ratio: 3
-#    Rapport utilisé pour limiter la vitesse et l'accélération des mouvements proches des
-#    extrêmes de l'axe X. Si la distance verticale divisée par la distance horizontale dépasse
-#    la valeur de slow_ratio, la vitesse et l'accélération sont limitées à la moitié de leur valeur
-#    nominale. Si la distance verticale divisée par la distance horizontale dépasse de deux fois
-#    la valeur de slow_ratio, alors la vitesse et l'accélération sont limitées à un quart de leur
-#    valeur nominale. La valeur par défaut est 3.
+# Le rapport utilisé pour limiter la vitesse et l'accélération lors des mouvements près de la
+# extrêmes de l'axe X. Si distance verticale divisée par horizontale
+# la distance dépasse la valeur de slow_ratio, puis la vitesse et
+# les accélérations sont limitées à la moitié de leurs valeurs nominales. Si vertical
+# la distance divisée par la distance horizontale dépasse le double de la valeur de
+# le slow_ratio, puis la vitesse et l'accélération sont limitées à un
+# quart de leurs valeurs nominales. La valeur par défaut est 3.
 
-#    La section stepper_left est utilisée pour décrire le moteur pas à pas contrôlant la colonne
-#    gauche. Cette section contrôle également les paramètres d'orientation (homing_speed,
-#    homing_retract_dist) pour toutes les colonnes.
+# La section stepper_left est utilisée pour décrire le stepper contrôlant
+# la tour de gauche. Cette section contrôle également les paramètres de prise d'origine
+# (homing_speed, homing_retract_dist) pour toutes les tours.
 [stepper_left]
 position_endstop:
-#    Distance (en mm) entre la buse et le lit lorsque la buse se trouve au centre de la zone de
-#    construction. Ce paramètre doit être fourni pour stepper_left ; pour le paramètre stepper_right
-#    ce paramètre prend par défaut la valeur spécifiée pour stepper_left.
+# Distance (en mm) entre la buse et le lit lorsque la buse est
+# au centre de la zone de construction et les butées sont déclenchées. Ce
+# le paramètre doit être fourni pour stepper_left; stepper_right prend la valeur de stepper_left par défaut.
 arm_length:
-#    Longueur (en mm) de la tige diagonale reliant le chariot de la colonne à la tête d'impression.
-#    Ce paramètre doit être fourni pour stepper_left. Pour le paramètre stepper_right, ce paramètre
-#    prend par défaut la valeur spécifiée pour stepper_left.
+# Longueur (en mm) de la tige diagonale qui relie le chariot de la tour au
+# la tête d'impression. Ce paramètre doit être fourni pour stepper_left; pour
+# stepper_right, ce paramètre prend par défaut la valeur spécifiée pour
+# stepper_left.
 arm_x_length:
-#    Distance horizontale entre la tête d'impression et la colonne lorsque l'imprimante est mise à
-#    l'origine. Ce paramètre doit être fourni pour stepper_left ; pour stepper_right, ce paramètre
-#    prend par défaut la valeur spécifiée pour stepper_left.
+# Distance horizontale entre la tête d'impression et la tour lorsque l'imprimante est mise à l'origine. Ce paramètre doit être fourni pour stepper_left ;
+# pour stepper_right, ce paramètre prend par défaut la valeur spécifiée pour stepper_left.
 
-#    La section stepper_right est utilisée pour décrire le moteur pas à pas contrôlant la colonne de droite.
+# La section stepper_right est utilisée pour décrire le stepper contrôlant le
+# tour de droite.
 [stepper_right]
 
-#    La section stepper_y est utilisée pour décrire le moteur pas à pas contrôlant l'axe Y d'un robot deltesien.
+# La section stepper_y est utilisée pour décrire le stepper contrôlant
+# l'axe Y dans un robot deltésien.
 [stepper_y]
 ```
 
@@ -706,38 +707,41 @@ sensor_pin:
 #   lissées pour réduire l'impact du bruit de la mesure. La valeur par défaut
 #   est de 1 seconde.
 control:
-#   Algorithme de contrôle (soit pid, soit filigrane (watermark)). Ce paramètre doit
+#   Algorithme de contrôle (soit pid, soit watermark). Ce paramètre doit
 #   être fourni.
 pid_Kp:
 pid_Ki:
 pid_Kd:
-#   Les paramètres proportionnels (pid_Kp), intégraux (pid_Ki) et dérivés (pid_Kd) du système de
-#   contrôle de rétroaction PID. Klipper évalue les paramètres PID avec la formule générale suivante :
+#   Les paramètres proportionnels (pid_Kp), intégraux (pid_Ki) et dérivés (pid_Kd)
+#   du système de contrôle de rétroaction PID. Klipper évalue les paramètres PID avec
+#   la formule générale suivante :
 #      heater_pwm = (Kp*erreur + Ki*intégrale(erreur) - Kd*dérivée(erreur)) / 255
 #   Où "erreur" est le résultat de "requested_temperature - measured_temperature" et
-#  "heater_pwm" est le taux de chauffage demandé, 0.0 étant complètement éteint et 1.0 étant
-#   complètement allumé. Pensez à utiliser la commande PID_CALIBRATE pour obtenir ces paramètres.
-#    Les paramètres pid_Kp, pid_Ki, et pid_Kd doivent être fournis pour les éléments de chauffe PID.
+#   "heater_pwm" est le taux de chauffage demandé, 0.0 étant complètement éteint et
+#   1.0 étant complètement allumé. Pensez à utiliser la commande PID_CALIBRATE pour
+#   obtenir ces paramètres.  Les paramètres pid_Kp, pid_Ki, et pid_Kd doivent être
+#   fournis pour l'algorithme PID.
 #max_delta: 2.0
-#   Sur les éléments de chauffe contrôlés par un filigrane (watermark), il s'agit du nombre de degrés en
-#   Celsius au-dessus de la température cible avant de désactiver le chauffage ainsi que le nombre de
-#   degrés en dessous de la température cible avant la réactivation du chauffage. La valeur par défaut
-#   est de 2 degrés Celsius.
+#   Sur les éléments de chauffe contrôlés par watermark, il s'agit du nombre de degrés
+#   en Celsius au-dessus de la température cible avant de désactiver le chauffage ainsi
+#   que le nombre de degrés en dessous de la température cible avant la réactivation du
+#   chauffage. La valeur par défaut est de 2 degrés Celsius.
 #pwm_cycle_time: 0.100
 #   Durée en secondes de chaque cycle PWM logiciel du chauffage. Il n'est
 #   pas recommandé de définir cette valeur, sauf s'il existe une exigence
 #   électrique pour commuter le chauffage plus rapidement que 10 fois par seconde.
 #   La valeur par défaut est 0,100 seconde.
 #min_extrude_temp: 170
-#   La température minimale (en Celsius) au-dessus de laquelle les commandes de déplacement de
-#   l'extrudeuse peuvent être émises. La valeur par défaut est 170 Celsius.
+#   La température minimale (Celsius) au-dessus de laquelle les commandes de
+#   déplacement de l'extrudeuse peuvent être émises. La valeur par défaut est 170° C.
 min_temp:
 max_temp:
-#   La plage maximale de températures valides (en Celsius) dans laquelle l'élément de chauffe doit rester.
-#   Ceci contrôle une fonction de sécurité implémentée dans le code du micro-contrôleur - si la température
-#   mesurée sort de cette plage, le microcontrôleur se met en état d'arrêt.
-#   Ce contrôle peut aider à détecter certaines défaillances matérielles de l'élément chauffant et/ou du capteur.
-#   Définissez cette plage suffisamment large pour que des températures raisonnables n'entraînent pas d'erreur.
+#   La plage maximale de températures valides (Celsius) dans laquelle l'élément de
+#   chauffe doit rester. Ceci contrôle une fonction de sécurité implémentée dans le code
+#   du micro-contrôleur - si la température mesurée sort de cette plage, le microcontrôleur
+#   se met en état d'arrêt. Ce contrôle peut aider à détecter certaines défaillances matérielles
+#   de l'élément chauffant et/ou du capteur. Définissez cette plage suffisamment large pour
+#   que des températures raisonnables n'entraînent pas d'erreur.
 #   Ces paramètres doivent être fournis.
 ```
 
@@ -801,74 +805,78 @@ Exemples visuels :
 #   mesh_origin. Ce paramètre doit être fourni pour des lits circulaires
 #   et omis pour des lits rectangulaires.
 #mesh_origin:
-#   Définit les coordonnées X, Y du centre du maillage des lits circulaires. Ces
-#   coordonnées sont relatives à l'emplacement de la sonde. Il peut être utile
-#   d'ajuster l'origine du maillage afin de maximiser la taille du rayon du maillage.
-#   La valeur par défaut est 0, 0. Ce paramètre doit être omis pour des lits rectangulaires.
+#   Définit les coordonnées X, Y du centre du maillage des lits circulaires.
+#   Ces coordonnées sont relatives à l'emplacement de la sonde. Il peut être
+#   utile d'ajuster l'origine du maillage afin de maximiser la taille du rayon
+#   du maillage. La valeur par défaut est 0, 0. Ce paramètre doit être omis
+#   pour des lits rectangulaires.
 #mesh_min:
-#   Définit les coordonnées X, Y minimales du maillage pour les lits rectangulaires.
-#   Ces coordonnées sont relatives à l'emplacement de la sonde. Cette position
-#   sera le premier point sondé, le plus proche de l'origine. Ce paramètre doit
-#   être fourni pour des lits rectangulaires.
+#   Définit les coordonnées X, Y minimales du maillage pour les lits
+#   rectangulaires. Ces coordonnées sont relatives à l'emplacement de la
+#   sonde. Cette position sera le premier point sondé, le plus proche de
+#   l'origine. Ce paramètre doit être fourni pour des lits rectangulaires.
 #mesh_max:
-#   Définit les coordonnées X, Y maximales du maillage pour les lits rectangulaires.
-#   Le principe est le même que pour mesh_min, mais ce sera le point le plus éloigné
-#   atteignable par rapport à l'origine du lit. Ce paramètre  doit être fourni pour
-#   des lits rectangulaires.
+#   Définit les coordonnées X, Y maximales du maillage pour les lits
+#   rectangulaires. Le principe est le même que pour mesh_min, mais ce
+#   sera le point le plus éloigné atteignable par rapport à l'origine du lit.
+#   Ce paramètre  doit être fourni pour des lits rectangulaires.
 #probe_count: 3, 3
-#   Pour les lits rectangulaires, il s'agit d'une paire d'entiers X, Y séparés par des virgules,
-#   définissant le nombre de points à palper le long de chaque axe.
-#   Une valeur seule est également valide, auquel cas cette valeur sera appliquée aux
-#   deux axes. La valeur par défaut est 3, 3.
+#   Pour les lits rectangulaires, il s'agit d'une paire d'entiers X, Y séparés par
+#   des virgules, définissant le nombre de points à palper le long de chaque
+#   axe. Une valeur seule est également valide, auquel cas cette valeur sera
+#   appliquée aux deux axes. La valeur par défaut est 3, 3.
 #round_probe_count: 5
-#   Pour les lits circulaires, cette valeur entière définit le nombre maximum de points
-#   à palper le long de chaque axe. Cette valeur doit être un nombre impair.
-#   La valeur par défaut est 5.
+#   Pour les lits circulaires, cette valeur entière définit le nombre maximum
+#   de points à palper le long de chaque axe. Cette valeur doit être un
+#   nombre impair. La valeur par défaut est 5.
 #fade_start: 1.0
-#   La position z du gcode à partir de laquelle il faut commencer à éliminer progressivement
-#   l'ajustement z lorsque la compensation est activée. La valeur par défaut est 1.0.
+#   La position z du gcode à partir de laquelle il faut commencer à éliminer
+#   progressivement l'ajustement z lorsque la compensation est activée.
+#   La valeur par défaut est 1.0.
 #fade_end: 0.0
-#   La position z du gcode à partir de laquelle la compensation se termine. Lorsqu'elle est
-#   définie à une valeur inférieure à fade_start, la compensation est désactivée. Notez que
-#   la compensation peut ajouter une mise à l'échelle indésirable le long de l'axe z d'une impression.
-#   Si un utilisateur souhaite activer la compensation, une valeur de 10.0 est recommandée.
+#   La position z du gcode à partir de laquelle la compensation se termine.
+#   Lorsqu'elle est définie à une valeur inférieure à fade_start, la compensation
+#   est désactivée. Notez que la compensation peut ajouter une mise à l'échelle
+#   indésirable le long de l'axe z d'une impression. Si un utilisateur souhaite
+#   activer la compensation, une valeur de 10.0 est recommandée.
 #   La valeur par défaut est 0.0, ce qui désactive la compensation.
 #fade_target:
-#   La position z vers laquelle la compensation doit converger. Lorsque cette valeur est
-#   définie à une valeur non nulle, elle doit se situer dans la plage des valeurs z du maillage.
-#   Les utilisateurs qui souhaitent converger vers la position de mise à l'origine du Z
-#   doivent régler cette valeur à 0.
+#   La position z vers laquelle la compensation doit converger. Lorsque cette
+#   valeur est définie à une valeur non nulle, elle doit se situer dans la plage des
+#   valeurs z du maillage. Les utilisateurs qui souhaitent converger vers la
+#   position de mise à l'origine du Z doivent régler cette valeur à 0.
 #   La valeur par défaut est la valeur z moyenne du maillage.
 #split_delta_z: .025
-#   Le delta de différence de Z (en mm) le long d'un mouvement qui déclenchera une séparation.
-#   La valeur par défaut est de 0,025.
+#   Le delta de différence de Z (en mm) le long d'un mouvement qui
+#   déclenchera une séparation. La valeur par défaut est de 0,025.
 #move_check_distance: 5.0
 #   La distance (en mm) le long d'un mouvement pour vérifier le split_delta_z.
-#   C'est également la longueur minimale pour laquelle un mouvement peut être divisé.
-#   La valeur par défaut est 5.0.
+#   C'est également la longueur minimale pour laquelle un mouvement peut
+#   être divisé. La valeur par défaut est 5.0.
 #mesh_pps: 2, 2
-#   Une paire de nombres entiers X, Y séparés par des virgules, définissant le nombre de
-#   points par segment à interpoler dans le maillage le long de chaque axe. Un "segment"
-#   étant défini comme l'espace entre chaque point palpé.
-#   L'utilisateur peut saisir une seule valeur qui sera appliquée aux deux axes.
-#   La valeur par défaut est 2, 2.
-#algorithme: lagrange
-#   L'algorithme d'interpolation à utiliser. Soit "lagrange", soit "bicubic". Cette option
-#   n'affecte pas les grilles 3x3 forcées d'utiliser l'échantillonnage de lagrange.
-#   La valeur par défaut est lagrange.
+#   Une paire de nombres entiers X, Y séparés par des virgules, définissant le
+#   nombre de points par segment à interpoler dans le maillage le long de
+#   chaque axe. Un "segment" étant défini comme l'espace entre chaque point
+#   palpé. L'utilisateur peut saisir une seule valeur s'appliquant alors aux
+#   deux axes. La valeur par défaut est 2, 2.
+#algorithm: lagrange
+#   L'algorithme d'interpolation à utiliser. Soit "lagrange", soit "bicubic".
+#   Cette option n'affecte pas les grilles 3x3 forcées d'utiliser l'échantillonnage
+#   de lagrange. La valeur par défaut est lagrange.
 #bicubic_tension: .2
-#   Lors de l'utilisation de l'algorithme bicubic, le paramètre de tension ci-dessus peut
-#   être appliqué pour modifier la quantité de pente interpolée.
-#   Des nombres plus grands augmenteront la quantité de pente entraînant une plus grande
-#   courbure du maillage. La valeur par défaut est 0,2.
+#   Lors de l'utilisation de l'algorithme bicubic, le paramètre de tension ci-
+#   dessus peut être appliqué pour modifier la quantité de pente interpolée.
+#   Des nombres plus grands augmenteront la quantité de pente entraînant
+#   une plus grande courbure du maillage. La valeur par défaut est 0,2.
 #relative_reference_index:
-#   Un index de points dans le maillage auquel référencer toutes les valeurs z. En activant
-#   ce paramètre, on produit un maillage relatif à la position z palpée de l'indice fourni.
+#   Un index de points dans le maillage auquel référencer toutes les valeurs z.
+#   En activant ce paramètre, on produit un maillage relatif à la position z palpée
+#   de l'indice fourni.
 #faulty_region_1_min:
 #faulty_region_1_max:
-#   Points optionnels définissant une région défectueuse.  Voir docs/Bed_Mesh.md pour
-#   plus de détails sur les régions défectueuses. Jusqu'à 99 régions défectueuses peuvent
-#   être ajoutées.
+#   Points optionnels définissant une région défectueuse.
+#   Voir docs/Bed_Mesh.md pour plus de détails sur les régions défectueuses.
+#   Jusqu'à 99 régions défectueuses peuvent être ajoutées.
 #   Par défaut, aucune région défectueuse n'est définie.
 ```
 
@@ -914,35 +922,37 @@ Consultez le [guide de nivelage](Manual_Level.md#adjusting-bed-leveling-screws) 
 ```
 [bed_screws]
 #screw1:
-#   Coordonnées X, Y de la première vis de réglage du niveau du lit. Il s'agit de la
-#   position vers laquelle déplacer la buse afin qu'elle soit placée au-dessus de cette
-#   vis de réglage (ou aussi proche que possible tout en étant au-dessus du lit).
-#   Ce paramètre doit être fourni.
+#   Coordonnées X, Y de la première vis de réglage du niveau du lit. Il s'agit
+#   de la position vers laquelle déplacer la buse afin qu'elle soit placée au-
+#   dessus de cette vis de réglage (ou aussi proche que possible tout en étant
+#   au-dessus du lit). Ce paramètre doit être fourni.
 #screw1_name:
 #   Un nom arbitraire pour la vis donnée. Ce nom est affiché lors de
-#   l'exécution du script d'aide. Par défaut, le nom utilisé est basé sur
-#   la position XY de la vis.
+#   l'exécution du script d'aide. Par défaut, le nom utilisé est basé sur la
+#   position XY de la vis.
 #screw1_fine_adjust :
-#   Coordonnées X, Y pour commander la buse afin de pouvoir affiner le réglage de la vis de mise
-#   à niveau du lit. Par défaut, il n'y a pas de réglage fin sur la vis de mise à niveau du lit.
+#   Coordonnées X, Y pour commander la buse afin de pouvoir affiner le
+#   réglage de la vis de mise à niveau du lit. Par défaut, il n'y a pas de
+#   réglage fin sur la vis de mise à niveau du lit.
 #screw2:
 #screw2_name:
 #screw2_fine_adjust:
 #...
-#   Vis supplémentaires de mise à niveau du lit. Au moins trois vis doivent être
-#   définies.
+#   Vis supplémentaires de mise à niveau du lit. Au moins trois vis doivent
+#   être définies.
 #horizontal_move_z: 5
 #   Hauteur (en mm) à laquelle la tête doit être relevée pour se déplacer
 #   lors du passage d'une vis à la suivante. La valeur par défaut est 5.
 #probe_height: 0
-#   Hauteur de la sonde (en mm) après ajustement dû à la dilatation thermique
-#   du lit et de la buse. La valeur par défaut est zéro.
+#   Hauteur de la sonde (en mm) après ajustement dû à la dilatation
+#   thermique du lit et de la buse. La valeur par défaut est zéro.
 #speed: 50
-#   Vitesse (en mm/s) des déplacements entre les palpages pendant l'étalonnage.
-#   La valeur par défaut est 50.
+#   Vitesse (en mm/s) des déplacements entre les palpages pendant
+#   l'étalonnage. La valeur par défaut est 50.
 #probe_speed: 5
-#   Vitesse (en mm/s) lors du déplacement d'une position horizontal_move_z
-#   à la position probe_height. La valeur par défaut est 5.
+#   Vitesse (en mm/s) lors du déplacement d'une position
+#   horizontal_move_z à la position probe_height. La valeur par
+#   défaut est 5.
 ```
 
 ### [screws_tilt_adjust]
@@ -954,32 +964,32 @@ Voir le [guide de nivelage](Manual_Level.md#adjusting-bed-leveling-screws-using-
 ```
 [screws_tilt_adjust]
 #screw1:
-#    Les coordonnées (X, Y) de la première vis de mise à niveau du lit. Il s'agit d'une
-#    position à laquelle déplacer la buse de manière à ce que la sonde soit directement
-#    au-dessus de la vis de mise à niveau du lit (ou aussi près que possible tout en étant
-#    encore au-dessus du lit). Il s'agit de la vis de base utilisée dans les calculs.
-#    Ce paramètre doit être fourni.
+# La coordonnée (X, Y) de la première vis de nivellement du lit. pour que la sonde soit directement
+# au-dessus de la vis du lit (ou le plus près possible tout en étant
+# au-dessus du lit). C'est la vis de base utilisée dans les calculs. Ce
+# paramètre doit être fourni.
 #screw1_name:
-#    Un nom arbitraire pour la vis donnée. Ce nom est affiché lorsque le script d'aide
-#    s'exécute. Par défaut, le nom utilisé est basé sur la position XY de la vis.
+# Un nom arbitraire pour la vis donnée. Ce nom s'affiche lorsque
+# le script d'assistance s'exécute. La valeur par défaut est d'utiliser un nom basé sur
+# l'emplacement XY de la vis.
 #screw2:
-#screw2_name:
+#nom_vis2:
 #...
-#    Vis supplémentaires de mise à niveau du lit. Au moins deux vis doivent être
-#    définies.
+# Vis supplémentaires de mise à niveau du lit. Au moins deux vis doivent être
+# définies.
 #speed: 50
-#    La vitesse (en mm/s) des déplacements sans palpage pendant l'étalonnage.
-#    La valeur par défaut est 50.
+# La vitesse (en mm/s) des mouvements sans palpage pendant l'étalonnage.
+# La valeur par défaut est 50.
 #horizontal_move_z: 5
-#    La hauteur (en mm) à laquelle la tête doit être levée pour se déplacer juste
-#    avant de lancer une opération de palpage. La valeur par défaut est 5.
+# La hauteur (en mm) à laquelle la tête doit se déplacer
+# juste avant de lancer une opération de détection. La valeur par défaut est 5.
 #screw_thread: CW-M3
-#    Le type de vis utilisée pour le niveau du lit, M3, M4 ou M5 et la direction de la molette
-#    utilisée pour le nivelage du lit, diminution dans le sens des aiguilles d'une montre,
-#    augmentation dans le sens inverse des aiguilles d'une montre.
-#    Valeurs acceptées : CW-M3, CCW-M3, CW-M4, CCW-M4, CW-M5, CCW-M5.
-#    La valeur par défaut est CW-M3. De nombreuses imprimantes utilisent une vis M3,
-#    un tour de molette dans le sens des aiguilles d'une montre diminue la distance.
+# Le type de vis utilisé pour le nivellement du lit, M3, M4 ou M5, et la
+# sens de rotation du bouton qui sert à niveler le lit.
+# Valeurs acceptées: CW-M3, CCW-M3, CW-M4, CCW-M4, CW-M5, CCW-M5.
+# La valeur par défaut est CW-M3 que la plupart des imprimantes utilisent. A dans le sens des aiguilles d'une montre
+# la rotation du bouton diminue l'écart entre la buse et le
+# lit. A l'inverse, une rotation dans le sens inverse des aiguilles d'une montre augmente l'écart.
 ```
 
 ### [z_tilt]
@@ -1118,24 +1128,26 @@ Mise à l'origine sûre de l'axe Z. On peut utiliser ce mécanisme pour centrer 
 ```
 [safe_z_home]
 home_xy_position:
-#    Une coordonnée X, Y (par exemple 100, 100) où la mise à l'origine Z doit être
-#    effectuée. Ce paramètre doit être fourni.
+#    Une coordonnée X, Y (par exemple 100, 100) où la mise à l'origine Z
+#    doit être effectuée. Ce paramètre doit être fourni.
 #speed: 50.0
-#    Vitesse à laquelle la tête de l'outil est déplacée vers la position de référence Z sûre.
-#    La valeur par défaut est 50 mm/s
+#    Vitesse à laquelle la tête de l'outil est déplacée vers la position de
+#    référence Z sûre. La valeur par défaut est 50 mm/s
 #z_hop:
-#    Distance (en mm) pour lever l'axe Z avant le retour au point d'origine. Cette valeur est
-#    appliquée à toute commande d'initialisation, même si elle n'initialise pas l'axe Z.
-#    Si l'axe Z est déjà ramené à la position de base et que la position Z actuelle est inférieure
-#    à z_hop, alors ceci lèvera la tête à une hauteur de z_hop. Si l'axe Z n'est pas déjà centré,
+#    Distance (en mm) pour lever l'axe Z avant le retour au point d'origine.
+#    Cette valeur est appliquée à toute commande d'initialisation, même
+#    si elle n'initialise pas l'axe Z. Si l'axe Z est déjà ramené à la position
+#    de base et que la position Z actuelle est inférieure à z_hop, alors ceci
+#    lèvera la tête à une hauteur de z_hop. Si l'axe Z n'est pas déjà centré,
 #    la tête est relevée de z_hop.
 #    La valeur par défaut est de ne pas implémenter le relevage en Z.
 #z_hop_speed: 15.0
-#    Vitesse (en mm/s) à laquelle l'axe Z est relevé avant le retour à la position initiale.
-#    La valeur par défaut est de 15 mm/s.
+#    Vitesse (en mm/s) à laquelle l'axe Z est relevé avant le retour à la
+#    position initiale. La valeur par défaut est de 15 mm/s.
 #move_to_previous: False
-#    Lorsqu'il a la valeur True, les axes X et Y sont réinitialisés à leurs positions précédentes après
-#    retour à la position initiale de l'axe Z. La valeur par défaut est False.
+#    Lorsqu'il a la valeur True, les axes X et Y sont réinitialisés à leurs
+#    positions précédentes après retour à la position initiale de l'axe Z.
+#    La valeur par défaut est False.
 ```
 
 ### [homing_override]
@@ -1145,26 +1157,29 @@ Homing override. On peut utiliser ce mécanisme pour exécuter une série de com
 ```
 [homing_override]
 gcode:
-#    Une liste de commandes G-Code à exécuter à la place des commandes G28
-#    trouvées dans l'entrée g-code normale. Voir docs/Command_Templates.md
-#    pour le format G-Code. Si un G28 est contenu dans cette liste de commandes
-#    alors la procédure de mise à l'origine de l'imprimante sera invoquée.
-#    Les commandes énumérées ici doivent ramener tous les axes à la position initiale.
+#    Une liste de commandes G-Code à exécuter à la place des commandes
+#    G28 trouvées dans l'entrée g-code normale. Voir 
+#    docs/Command_Templates.md pour le format G-Code. Si un G28 est
+#    contenu dans cette liste de commandes alors la procédure de mise à
+#    l'origine de l'imprimante sera invoquée. Les commandes énumérées
+#    ici doivent ramener tous les axes à la position initiale.
 #    Ce paramètre doit être fourni.
 #axes: xyz
-#    Les axes à remplacer. Par exemple, si ce paramètre est défini sur "z", alors le script
-#    d'annulation ne sera exécuté que lorsque l'axe z est mis à l'origine (par ex.
-#    une commande "G28" ou "G28 Z"). Remarque : le script de neutralisation doit
-#    toujours gérer tous les axes. La valeur par défaut est "xyz" ce qui fait que le script
-#    de remplacement sera exécuté à la place de toutes les commandes G28.
+#    Les axes à remplacer. Par exemple, si ce paramètre est défini sur "z",
+#    alors le script d'annulation ne sera exécuté que lorsque l'axe z est mis
+#    à l'origine (par ex. une commande "G28" ou "G28 Z"). Remarque :
+#    le script de neutralisation doit toujours gérer tous les axes. La valeur
+#    par défaut est "xyz" ce qui fait que le script de remplacement sera
+#    exécuté à la place de toutes les commandes G28.
 #set_position_x:
 #set_position_y:
 #set_position_z:
-#    Si spécifié, l'imprimante supposera que l'axe est à la position spécifiée avant
-#    d'exécuter les commandes g-code ci-dessus. Le fait de définir ceci désactive les
-#    contrôles d'orientation pour cet axe. Cela peut être utile si la tête doit se déplacer
-#    avant d'invoquer le mécanisme G28 normal d'un axe.
-#    La valeur par défaut est de ne pas forcer une position pour un axe.
+#    Si spécifié, l'imprimante supposera que l'axe est à la position indiquée
+#    avant d'exécuter les commandes g-code ci-dessus. Le fait de définir
+#    ceci désactive les contrôles d'orientation pour cet axe. Cela peut être
+#    utile si la tête doit se déplacer avant d'invoquer le mécanisme G28
+#    normal d'un axe. La valeur par défaut est de ne pas forcer une
+#    position pour un axe.
 ```
 
 ### [endstop_phase]
@@ -1176,23 +1191,28 @@ Voir le [guide de détecteurs de fin de course](Endstop_Phase.md) et la [référ
 ```
 [endstop_phase stepper_z]
 #endstop_accuracy:
-#   Définit la précision attendue (en mm) de la butée. Cela représente la distance d'erreur
-#   maximale que la butée peut déclencher (par exemple, si une butée peut occasionnellement
-#   se déclencher 100um en avance ou jusqu'à 100um en retard alors réglez cette valeur
-#   sur 0.200 pour 200um). La valeur par défaut est 4*rotation_distance/full_steps_per_rotation.
+#   Définit la précision attendue (en mm) de la butée. Cela représente la
+#   distance d'erreur maximale que la butée peut déclencher (par
+#   exemple, si une butée peut occasionnellement se déclencher 100um
+#   en avance ou jusqu'à 100um en retard alors réglez cette valeur sur
+#   0.200 pour 200um). La valeur par défaut est
+#   4*rotation_distance/full_steps_per_rotation.
 #trigger_phase:
-#   Spécifie la phase du pilote du moteur pas à pas à attendre lorsque l'on atteint la butée.
-#   Composé de deux nombres séparés par une barre oblique - la phase et le nombre total
-#   de phases (par exemple, "7/64"). Ne définissez cette valeur que si vous êtes sûr que le
-#   pilote du moteur pas à pas est réinitialisé à chaque fois que le mcu est réinitialisé. 
-#   Si cette valeur n'est pas définie, alors la phase du moteur pas à pas sera détectée à la
-#   première mise à l'origine et cette phase sera utilisée sur toutes les origines suivantes.
+#   Spécifie la phase du pilote du moteur pas à pas à attendre lorsque
+#   l'on atteint la butée. Composé de deux nombres séparés par une barre
+#   oblique - la phase et le nombre total de phases (par exemple, "7/64").
+#   Ne définissez cette valeur que si vous êtes sûr que le pilote du moteur
+#   pas à pas est réinitialisé à chaque fois que le mcu est réinitialisé. Si
+#   cette valeur n'est pas définie, alors la phase du moteur pas à pas sera
+#   détectée à la première mise à l'origine et cette phase sera utilisée sur
+#   toutes les origines suivantes.
 #endstop_align_zero: False
-#   Si vrai, la position_endstop de l'axe sera effectivement modifiée de manière à ce que la
-#   position zéro de l'axe se produise sur un pas  complet du moteur pas à pas. (Si utilisé sur
-#   l'axe Z et que la hauteur de la couche d'impression est un multiple de la distance parcourue
-#   par un pas complet, alors chaque couche se produira sur un pas complet).
-#   La valeur par défaut est False.
+#   Si vrai, la position_endstop de l'axe sera effectivement modifiée de
+#   manière à ce que la position zéro de l'axe se produise sur un pas
+#   complet du moteur pas à pas. (Si utilisé sur l'axe Z et que la hauteur
+#   de la couche d'impression est un multiple de la distance parcourue
+#   par un pas complet, alors chaque couche se produira sur un pas
+#   complet). La valeur par défaut est False.
 ```
 
 ## Macros et événements G-Code
@@ -1204,28 +1224,31 @@ Macros G-Code (on peut définir un nombre quelconque de sections avec le préfix
 ```
 [gcode_macro my_cmd]
 #gcode:
-#    Une liste de commandes G-Code à exécuter à la place de "my_cmd". Voir
-#    docs/Command_Templates.md pour le format G-Code. Ce paramètre doit
-#    être fourni.
+#    Une liste de commandes G-Code à exécuter à la place de "my_cmd".
+#    Voir docs/Command_Templates.md pour le format G-Code. Ce paramètre
+#    doit être fourni.
 #variable_<name>:
-#    On peut spécifier un nombre quelconque d'options avec le préfixe "variable_".
-#    Le nom de variable donné se verra attribué la valeur donnée (analysée en tant
-#    que littéral par Python) et sera disponible pendant l'expansion de la macro.
-#    Par exemple, une configuration avec "variable_fan_speed = 75" pourrait avoir
-#    des commandes gcode contenant "M106 S{ fan_speed * 255 }". Ces variables
-#    peuvent alors être modifiées au moment de l'exécution en utilisant la commande
-#    SET_GCODE_VARIABLE (voir docs/Command_Templates.md pour plus de détails).
-#    Les noms de variables peuvent ne pas utiliser de caractères majuscules.
+#    On peut spécifier un nombre quelconque d'options avec le préfixe
+#    "variable_". Le nom de variable donné se verra attribué la valeur donnée
+#    (analysée en tant que littéral par Python) et sera disponible pendant
+#    l'expansion de la macro. Par exemple, une configuration avec
+#    "variable_fan_speed = 75" pourrait avoir des commandes gcode
+#    contenant "M106 S{ fan_speed * 255 }". Ces variables peuvent alors être
+#    modifiées au moment de l'exécution en utilisant la commande
+#    SET_GCODE_VARIABLE (voir docs/Command_Templates.md pour plus
+#    de détails). Les noms de variables peuvent ne pas utiliser de
+#    caractères majuscules.
 #rename_existing:
-#    Cette option permet à la macro de remplacer une commande G-Code existante
-#    et fournira la définition précédente de la commande via le nom fourni ici. Ceci
-#    peut être utilisé pour remplacer les commandes G-Code originelles. Il convient
-#    d'être prudent lorsque l'on remplace des commandes, cela pouvant provoquer
-#    des résultats complexes et inattendus. La valeur par défaut est de ne pas
-#    remplacer une commande G-Code existante.
+#    Cette option permet à la macro de remplacer une commande G-Code
+#    existante et fournira la définition précédente de la commande via le
+#    nom fourni ici. Ceci peut être utilisé pour remplacer les commandes
+#    G-Code originelles. Il convient d'être prudent lorsque l'on remplace
+#    des commandes, cela pouvant provoquer des résultats complexes et
+#    inattendus. La valeur par défaut est de ne pas remplacer une
+#    commande G-Code existante.
 #description: Macro G-Code
-#    Ceci ajoutera une courte description utilisée à la commande HELP ou lors de
-#    l'utilisation de la fonction de complétion automatique.
+#    Ceci ajoutera une courte description utilisée à la commande HELP
+#    ou lors de l'utilisation de la fonction de complétion automatique.
 #    Par défaut : "G-Code macro".
 ```
 
@@ -1236,14 +1259,15 @@ Exécute un gcode sur un délai défini. Voir le [guide des modèles de commande
 ```
 [delayed_gcode my_delayed_gcode]
 gcode:
-#   Une liste de commandes G-Code à exécuter lorsque la durée du délai est écoulée.
-#   Les modèles G-Code sont supportés. Ce paramètre doit être fourni.
+#   Une liste de commandes G-Code à exécuter lorsque la durée du délai
+#   est écoulée. Les modèles G-Code sont supportés. Ce paramètre
+#   doit être fourni.
 #initial_duration: 0.0
-#   Durée du délai initial (en secondes). Si elle est définie à une valeur non nulle, le gcode
-#   différé s'exécutera le nombre de secondes spécifié après que l'imprimante passe à
-#   l'état "prêt". Ceci peut être utile pour les procédures d'initialisation ou lors d'une
-#   répétition de delayed_gcode. Si la valeur est 0, le delayed_gcode ne sera pas exécuté
-#   au démarrage.
+#   Durée du délai initial (en secondes). Si elle est définie à une valeur non
+#   nulle, le gcode différé s'exécutera le nombre de secondes spécifié après
+#   que l'imprimante passe à l'état "prêt". Ceci peut être utile pour les
+#   procédures d'initialisation ou lors d'une répétition de delayed_gcode.
+#   Si la valeur est 0, le delayed_gcode ne sera pas exécuté au démarrage.
 #   La valeur par défaut est 0.
 ```
 
@@ -2929,6 +2953,122 @@ run_current:
 #    premier bit de HDEC est interprété comme le MSB de HSTRT dans ce cas).
 ```
 
+### [tmc2240]
+
+Configuration d'un pilote de moteur pas à pas TMC2240 via le bus SPI. Pour utiliser cette fonctionnalité, définissez une section de configuration avec un préfixe "tmc2240" suivi du nom de la section de configuration pas à pas correspondante (par exemple, "[tmc2240 stepper_x]").
+
+```
+[tmc2240 stepper_x]
+cs_pin:
+# La broche correspondant à la ligne de sélection de puce TMC2240. Cette broche
+# sera réglé sur bas au début des messages SPI et élevé sur haut
+# après la fin du message. Ce paramètre doit être fourni.
+#spi_speed:
+#spi_bus:
+#spi_software_sclk_pin:
+#spi_software_mosi_pin:
+#spi_software_miso_pin:
+# Voir la section "Paramètres SPI communs" pour une description des
+# paramètres ci-dessus.
+#chain_position:
+#chain_length:
+# Ces paramètres configurent une connexion en guirlande SPI. Les deux paramètres
+# définir la position du stepper dans la chaîne et la longueur totale de la chaîne.
+# La position 1 correspond au stepper qui se connecte au signal MOSI.
+# La valeur par défaut est de ne pas utiliser de connexion en guirlande SPI.
+#interpolate: True
+# Si vrai, active l'interpolation pas à pas (le pilote
+# pas à raison de 256 micro-pas). La valeur par défaut est Vrai.
+run_current:
+# La quantité de courant (en ampères RMS) pour configurer le pilote à utiliser
+# pendant le mouvement pas à pas. Ce paramètre doit être fourni.
+#hold_current:
+# La quantité de courant (en ampères RMS) pour configurer le pilote à utiliser
+# lorsque le stepper ne bouge pas. Définir un hold_current n'est pas
+# recommandé (voir TMC_Drivers.md pour plus de détails). La valeur par défaut est de
+# ne pas réduire le courant.
+#rref: 12000
+# La résistance (en ohms) de la résistance entre IREF et GND. Le
+# la valeur par défaut est 12000.
+#stealthchop_threshold: 0
+# La vélocité (en mm/s) à laquelle régler le seuil "stealthChop". Quand
+# set, le mode "stealthChop" sera activé si le moteur pas à pas
+# la vélocité est inférieure à cette valeur. La valeur par défaut est 0, ce qui désactive
+# Mode "stealthChop".
+#driver_MSLUT0: 2863314260
+#driver_MSLUT1: 1251300522
+#driver_MSLUT2: 608774441
+#driver_MSLUT3: 269500962
+#driver_MSLUT4: 4227858431
+#driver_MSLUT5: 3048961917
+#driver_MSLUT6: 1227445590
+#driver_MSLUT7: 4211234
+#driver_W0: 2
+#driver_W1: 1
+#driver_W2: 1
+#driver_W3: 1
+#driver_X1: 128
+#driver_X2: 255
+#driver_X3: 255
+#driver_START_SIN: 0
+#driver_START_SIN90: 247
+#driver_OFFSET_SIN90: 0
+# Ces champs contrôlent directement les registres de la table Microstep. L'optimum
+# la table d'onde est spécifique à chaque moteur et peut varier avec le courant. Un
+# la configuration optimale aura un minimum d'artefacts d'impression causés par
+# mouvement pas à pas non linéaire. Les valeurs spécifiées ci-dessus sont les valeurs par défaut
+# valeurs utilisées par le pilote. La valeur doit être spécifiée sous forme d'entier décimal
+# (la forme hexadécimale n'est pas prise en charge). Pour calculer les champs de la table d'ondes,
+# voir la "feuille de calcul" tmc2130 sur le site Web de Trinamic.
+# De plus, ce pilote possède également le champ OFFSET_SIN90 qui peut être utilisé
+# pour régler un moteur avec des bobines déséquilibrées. Voir le `Tableau de recherche d'onde sinusoïdale`
+# section dans la fiche technique pour plus d'informations sur ce champ et comment le régler.
+#driver_IHOLDDELAY: 6
+#driver_IRUNDELAY: 4
+#driver_TPOWERDOWN: 10
+#driver_TBL: 2
+#driver_TOFF: 3
+#driver_HEND: 2
+#driver_HSTRT: 5
+#driver_FD3: 0
+#driver_TPFD: 4
+#driver_CHM: 0
+#driver_VHIGHFS: 0
+#driver_VHIGHCHM: 0
+#driver_DISS2G: 0
+#driver_DISS2VS: 0
+#driver_PWM_AUTOSCALE: True
+#driver_PWM_AUTOGRAD: True
+#driver_PWM_FREQ: 0
+#driver_FREEWHEEL: 0
+#driver_PWM_GRAD: 0
+#driver_PWM_OFS: 29
+#driver_PWM_REG: 4
+#driver_PWM_LIM: 12
+#driver_SGT: 0
+#driver_SEMIN: 0
+#driver_SEUP: 0
+#driver_SEMAX: 0
+#driver_SEDN: 0
+#driver_SEIMIN: 0
+#driver_SFILT: 0
+#driver_SG4_ANGLE_OFFSET: 1
+# Définissez le registre donné lors de la configuration du TMC2240
+#Cela peut être utilisé pour définir des paramètres de moteur personnalisés. Le
+# les valeurs par défaut pour chaque paramètre sont à côté du nom du paramètre dans le
+# au-dessus de la liste.
+#diag0_pin:
+#diag1_pin:
+# La broche du microcontrôleur attachée à l'une des lignes DIAG du
+# Puce TMC2240. Une seule broche diag doit être spécifiée. L'épingle
+# est "actif bas" et est donc normalement précédé de "^!". Paramètre
+# cela crée une broche virtuelle "tmc2240_stepper_x:virtual_endstop"
+# qui peut être utilisé comme endstop_pin du stepper. Faire cela permet
+# "prise d'origine sans capteur". (Assurez-vous également de définir driver_SGT sur un
+# valeur de sensibilité appropriée.) La valeur par défaut est de ne pas activer
+# prise d'origine sans capteur.
+```
+
 ### [tmc5160]
 
 Configuration d'un pilote de moteur pas à pas TMC5160 via le bus SPI. Pour utiliser cette fonctionnalité, définissez une section de configuration avec un préfixe "tmc5160" suivi du nom de la section de configuration du moteur pas à pas correspondant (par exemple, "[tmc5160 stepper_x]").
@@ -3831,17 +3971,17 @@ Si vous utilisez Octoprint et que vous diffusez du gcode sur le port série au l
 ```
 [palette2]
 serial:
-#    Le port série à connecter à la Palette 2.
+# Le port série à connecter à la Palette 2.
 #baud: 115200
-#    Le débit en bauds à utiliser. La valeur par défaut est 115200.
+# Le débit en bauds à utiliser. La valeur par défaut est 115200.
 #feedrate_splice: 0.8
-#    Le taux d'avance à utiliser lors de l'épissage, la valeur par défaut est 0.8.
+# La vitesse d'avance à utiliser lors de l'épissage, la valeur par défaut est 0,8
 #feedrate_normal: 1.0
-#    L'avance à utiliser après l'épissage, la valeur par défaut est 1.0.
+# La vitesse d'avance à utiliser après le raccordement, la valeur par défaut est 1.0
 #auto_load_speed: 2
-#    Vitesse d'extrusion lors du chargement automatique, par défaut 2 (mm/s).
+# Vitesse d'avance d'extrusion lors du chargement automatique, la valeur par défaut est 2 (mm/s)
 #auto_cancel_variation: 0.1
-#    Annulation automatique de l'impression lorsque la variation du ping est supérieure à ce seuil.
+# Annulation automatique de l'impression lorsque la variation du ping est supérieure à ce seuil
 ```
 
 ### [angle]
@@ -3899,22 +4039,24 @@ Les paramètres suivants sont généralement disponibles pour les dispositifs ut
 
 Les paramètres suivants sont généralement disponibles pour les dispositifs utilisant un bus I2C.
 
-Notez que le support actuel des micro-contrôleurs de Klipper pour i2c n'est généralement pas tolérant au bruit sur la ligne. Des erreurs inattendues sur les fils i2c peuvent entraîner une erreur d'exécution de Klipper. Le support de Klipper de récupération des erreurs varie selon le type de micro-contrôleur. Il est généralement recommandé de n'utiliser que des dispositifs i2c se trouvant sur la même carte de circuit imprimé que le microcontrôleur.
+La prise en charge actuelle du microcontrôleur de Klipper pour I2C n'est généralement pas tolérante au bruit de ligne. Des erreurs inattendues sur les fils I2C peuvent amener Klipper à générer une erreur d'exécution. La prise en charge de Klipper pour la récupération d'erreur varie selon chaque type de microcontrôleur. Il est généralement recommandé de n'utiliser que des appareils I2C qui se trouvent sur la même carte de circuit imprimé que le microcontrôleur.
 
-La plupart des implémentations de micro-contrôleurs Klipper ne supportent qu'une `i2c_speed` de 100000. Le micro-contrôleur Klipper "linux" supporte une vitesse de 400000, mais elle doit être [définie dans le système d'exploitation](RPi_microcontroller.md#optional-enabling-i2c) sinon le paramètre `i2c_speed` est ignoré. Le micro-contrôleur Klipper "rp2040" supporte un taux de 400000 via le paramètre `i2c_speed`. Tous les autres micro-contrôleurs Klipper utilisent un taux de 100000 et ignorent le paramètre `i2c_speed`.
+La plupart des implémentations de microcontrôleurs Klipper ne prennent en charge qu'une `i2c_speed` de 100000 (*mode standard*, 100kbit/s). Le micro-contrôleur Klipper "Linux" supporte une vitesse de 400000 (*fast mode*, 400kbit/s), mais il doit être [défini dans le système d'exploitation](RPi_microcontroller.md#optional-enabling-i2c) sinon le paramètre `i2c_speed` sera ignoré. Le microcontrôleur Klipper "RP2040" et la famille ATmega AVR supportent un taux de 400000 via le paramètre `i2c_speed`. Tous les autres microcontrôleurs Klipper utilisent un taux de 100000 et ignorent le paramètre `i2c_speed`.
 
 ```
 #i2c_address:
-#    L'adresse i2c du périphérique. Elle doit être spécifiée sous la forme d'un nombre décimal
-#    (pas en hexadécimal). La valeur par défaut dépend du type de périphérique.
+# L'adresse i2c de l'appareil. Ceci doit être spécifié sous forme décimale
+# nombre (pas en hexadécimal). La valeur par défaut dépend du type d'appareil.
 #i2c_mcu:
-#    Le nom du micro-contrôleur auquel la puce est connectée.
-#    La valeur par défaut est "mcu".
+# Le nom du microcontrôleur auquel la puce est connectée.
+# La valeur par défaut est "mcu".
 #i2c_bus:
-#    Si le micro-contrôleur supporte plusieurs bus I2C, on peut spécifier le bus du micro-contrôleur.
-#    La valeur par défaut dépend du type de micro-contrôleur.
+# Si le microcontrôleur prend en charge plusieurs bus I2C, on peut
+# spécifiez ici le nom du bus du microcontrôleur. La valeur par défaut dépend de
+# le type de microcontrôleur.
 #i2c_speed:
-#    La vitesse I2C (en Hz) à utiliser lors de la communication avec le périphérique.
-#    L'implémentation de Klipper pour la plupart des micro-contrôleurs est codée en dur à 100000,
-#    modifier cette valeur n'a aucun effet. La valeur par défaut est 100000.
+# La vitesse I2C (en Hz) à utiliser lors de la communication avec l'appareil.
+# L'implémentation de Klipper sur la plupart des microcontrôleurs est codée en dur
+# à 100000 et la modification de cette valeur n'a aucun effet. La valeur par défaut est
+# 100000. Linux, RP2040 et ATmega prennent en charge 400000.
 ```
