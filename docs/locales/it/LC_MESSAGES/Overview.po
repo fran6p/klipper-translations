@@ -1,18 +1,18 @@
 # Ernesto Lo Valvo <elovalvo@gmail.com>, 2021.
 # Yifei Ding <dingyifeiair@gmail.com>, 2021.
 # G R <gradaellig@gmail.com>, 2022.
-# Ale Ale <ale.99.ale@gmail.com>, 2022.
+# Ale Ale <ale.99.ale@gmail.com>, 2022, 2023.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: yifeiding@protonmail.com\n"
-"PO-Revision-Date: 2022-07-30 17:21+0000\n"
+"PO-Revision-Date: 2023-09-14 18:54+0000\n"
 "Last-Translator: Ale Ale <ale.99.ale@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/klipper/overview/it/>\n"
 "Language: it\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 
 msgid ""
 "Welcome to the Klipper documentation. If new to Klipper, start with the "
@@ -306,6 +306,24 @@ msgstr "[Sensore di larghezza del filamento Hall](HallFilamentWidthSensor.md)"
 msgid ""
 "[Exclude Object](Exclude_Object.md): The guide to the Exclude Objects "
 "implementation."
+msgstr ""
+"[Exclude Object](Exclude_Object.md): La guida all'implementazione di Exclude"
+" Objects."
+
+#: docs/Overview.md:block 6 (unordered list)
+msgid ""
+"[Axis Twist Compensation](Axis_Twist_Compensation.md): A tool to compensate "
+"for inaccurate probe readings due to twist in X gantry."
+msgstr ""
+
+#: docs/Overview.md:block 10 (unordered list)
+msgid "[Bootloader Entry](Bootloader_Entry.md): Requesting the bootloader."
+msgstr ""
+
+#: docs/Overview.md:block 10 (unordered list)
+msgid ""
+"[CAN bus troubleshooting](CANBUS_Troubleshooting.md): Tips for "
+"troubleshooting CAN bus."
 msgstr ""
 
 #~ msgid ""

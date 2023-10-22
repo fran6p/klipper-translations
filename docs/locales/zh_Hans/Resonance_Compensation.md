@@ -10,7 +10,7 @@ Klipper支持输入整形 -一种可以用来减少打印件上振纹（也被�
 
 ## 调整
 
-Basic tuning requires measuring the ringing frequencies of the printer by printing a test model.
+基本调谐需要通过打印测试模型来测量打印机的振铃频率。
 
 将振纹测试模型切片，该模型可以在[docs/prints/ringing_tower.stl](prints/ringing_tower.stl)中找到，在切片软件中：
 
@@ -26,7 +26,7 @@ Basic tuning requires measuring the ringing frequencies of the printer by printi
 
 首先，测量**振纹频率**。
 
-1. If `square_corner_velocity` parameter was changed, revert it back to 5.0. It is not advised to increase it when using input shaper because it can cause more smoothing in parts - it is better to use higher acceleration value instead.
+1. 如果“square_corner_velocity”参数已更改，请将其恢复到5.0。当使用输入整形器时，不建议增加它，因为它会导致零件更加平滑——最好使用更高的加速度值。
 1. Increase `max_accel_to_decel` by issuing the following command: `SET_VELOCITY_LIMIT ACCEL_TO_DECEL=7000`
 1. Disable Pressure Advance: `SET_PRESSURE_ADVANCE ADVANCE=0`
 1. 如果你已经将`[input_shaper]`分段添加到print.cfg中，执行`SET_INPUT_SHAPER SHAPER_FREQ_X=0 SHAPER_FREQ_Y=0`命令。如果你得到"未知命令"错误，此时你可以安全地忽略它，继续进行测量。
@@ -127,11 +127,11 @@ Choose the minimum out of the two acceleration values (from ringing and smoothin
 
 在非常低的共振频率（大约25Hz及以下），即使是MZV整形器也可能产生过多的平滑。如果遇到这种情况，可以尝试用 ZV 整形器重复[选择输入整形器](#choosing-input-shaper)章节中的步骤，用`SET_INPUT_SHAPER SHAPER_TYPE=ZV` 命令代替。ZV整形器应该产生比MZV更少的平滑，但对测量共振频率中的误差更敏感。
 
-Another consideration is that if a resonance frequency is too low (below 20-25 Hz), it might be a good idea to increase the printer stiffness or reduce the moving mass. Otherwise, acceleration and printing speed may be limited due too much smoothing now instead of ringing.
+另一个需要考虑的因素是，如果共振频率过低（低于20-25 Hz），则最好增加打印机的刚度或减少运动质量。否则，加速度和打印速度可能会受到过多的平滑限制而非共振。
 
-### Fine-tuning resonance frequencies
+### 微调共振频率
 
-Note that the precision of the resonance frequencies measurements using the ringing test model is sufficient for most purposes, so further tuning is not advised. If you still want to try to double-check your results (e.g. if you still see some ringing after printing a test model with an input shaper of your choice with the same frequencies as you have measured earlier), you can follow the steps in this section. Note that if you see ringing at different frequencies after enabling [input_shaper], this section will not help with that.
+请注意，使用共振测试模型进行的共振频率测量的精度通常足够用于大多数目的，因此不建议进一步调整。如果您仍然想尝试再次检查您的结果（例如，如果您在打印与您之前测量的频率相同的输入整形器的测试模型后仍然看到某些振纹），您可以按照本节中的步骤操作。请注意，如果您在启用[input_shaper]后看到不同频率的振纹，本节将无法解决这个问题。
 
 Assuming that you have sliced the ringing model with suggested parameters, complete the following steps for each of the axes X and Y:
 
@@ -139,26 +139,26 @@ Assuming that you have sliced the ringing model with suggested parameters, compl
 1. Make sure Pressure Advance is disabled: `SET_PRESSURE_ADVANCE ADVANCE=0`
 1. Execute: `SET_INPUT_SHAPER SHAPER_TYPE=ZV`
 1. From the existing ringing test model with your chosen input shaper select the acceleration that shows ringing sufficiently well, and set it with: `SET_VELOCITY_LIMIT ACCEL=...`
-1. Calculate the necessary parameters for the `TUNING_TOWER` command to tune `shaper_freq_x` parameter as follows: start = shaper_freq_x * 83 / 132 and factor = shaper_freq_x / 66, where `shaper_freq_x` here is the current value in `printer.cfg`.
+1. 计算`TUNING_TOWER`命令所需的参数，以调整`shaper_freq_x`参数，如下：start = shaper_freq_x * 83 / 132 和 factor = shaper_freq_x / 66，其中`shaper_freq_x`是`printer.cfg`中的当前值。
 1. Execute the command: `TUNING_TOWER COMMAND=SET_INPUT_SHAPER PARAMETER=SHAPER_FREQ_X START=start FACTOR=factor BAND=5` using `start` and `factor` values calculated at step (5).
-1. Print the test model.
-1. Reset the original frequency value: `SET_INPUT_SHAPER SHAPER_FREQ_X=...`.
-1. Find the band which shows ringing the least and count its number from the bottom starting at 1.
-1. Calculate the new shaper_freq_x value via old shaper_freq_x * (39 + 5 * #band-number) / 66.
+1. 打印测试模型。
+1. 重置原始频率值：`SET_INPUT_SHAPER SHAPER_FREQ_X=...`。
+1. 找到振纹最少的条带，并从底部从1开始数它的高度。
+1. 通过旧的 shaper_freq_x * (39 + 5 * #条带高度) / 66 计算新的 shaper_freq_x 值。
 
-Repeat these steps for the Y axis in the same manner, replacing references to X axis with the axis Y (e.g. replace `shaper_freq_x` with `shaper_freq_y` in the formulae and in the `TUNING_TOWER` command).
+以相同的方式重复这些步骤，用Y轴替换X轴（例如，在公式和`TUNING_TOWER`命令中，用`shaper_freq_y`替换`shaper_freq_x`）。
 
-As an example, let's assume you have had measured the ringing frequency for one of the axis equal to 45 Hz. This gives start = 45 * 83 / 132 = 28.30 and factor = 45 / 66 = 0.6818 values for `TUNING_TOWER` command. Now let's assume that after printing the test model, the fourth band from the bottom gives the least ringing. This gives the updated shaper_freq_? value equal to 45 * (39 + 5 * 4) / 66 ≈ 40.23.
+假设你已测得其中一个轴的共振频率等于45 Hz。这给出了 `TUNING_TOWER` 命令的 start = 45 * 83 / 132 = 28.30 和 factor = 45 / 66 = 0.6818 值。现在，假设在打印测试模型后，从底部数起的第四个条带的振纹最少。这给出了更新后的 shaper_freq_? 值等于 45 * (39 + 5 * 4) / 66 ≈ 40.23。
 
-After both new `shaper_freq_x` and `shaper_freq_y` parameters have been calculated, you can update `[input_shaper]` section in `printer.cfg` with the new `shaper_freq_x` and `shaper_freq_y` values.
+在新的 `shaper_freq_x` 和 `shaper_freq_y` 参数计算完成后，你可以在 `printer.cfg` 的 `[input_shaper]` 分段中用新的 `shaper_freq_x` 和 `shaper_freq_y` 值更新。
 
-### Pressure Advance
+### 压力提前
 
 If you use Pressure Advance, it may need to be re-tuned. Follow the [instructions](Pressure_Advance.md#tuning-pressure-advance) to find the new value, if it differs from the previous one. Make sure to restart Klipper before tuning Pressure Advance.
 
-### Unreliable measurements of ringing frequencies
+### 不可靠的共振频率测量结果
 
-If you are unable to measure the ringing frequencies, e.g. if the distance between the oscillations is not stable, you may still be able to take advantage of input shaping techniques, but the results may not be as good as with proper measurements of the frequencies, and will require a bit more tuning and printing the test model. Note that another possibility is to purchase and install an accelerometer and measure the resonances with it (refer to the [docs](Measuring_Resonances.md) describing the required hardware and the setup process) - but this option requires some crimping and soldering.
+如果你无法测量共振频率，例如，如果振荡之间的距离不稳定，你仍然可以利用输入整形技术，但结果可能不如使用频率的正确测量那样好，并且需要更多的调整和打印测试模型。注意，另一种可能的解决方法是购买并安装加速度计，并用它来测量共振（参考[文档](Measuring_Resonances.md)描述所需的硬件和设置过程）- 但这个选项需要压接和焊接一些连接器。
 
 For tuning, add empty `[input_shaper]` section to your `printer.cfg`. Then, assuming that you have sliced the ringing model with suggested parameters, print the test model 3 times as follows. First time, prior to printing, run
 
@@ -168,36 +168,36 @@ For tuning, add empty `[input_shaper]` section to your `printer.cfg`. Then, assu
 1. `SET_INPUT_SHAPER SHAPER_TYPE=2HUMP_EI SHAPER_FREQ_X=60 SHAPER_FREQ_Y=60`
 1. `TUNING_TOWER COMMAND=SET_VELOCITY_LIMIT PARAMETER=ACCEL START=1500 STEP_DELTA=500 STEP_HEIGHT=5`
 
-and print the model. Then print the model again, but before printing run instead
+然后打印模型。再次打印模型，但在打印之前运行
 
 1. `SET_INPUT_SHAPER SHAPER_TYPE=2HUMP_EI SHAPER_FREQ_X=50 SHAPER_FREQ_Y=50`
 1. `TUNING_TOWER COMMAND=SET_VELOCITY_LIMIT PARAMETER=ACCEL START=1500 STEP_DELTA=500 STEP_HEIGHT=5`
 
-Then print the model for the 3rd time, but now run
+然后第三次打印模型，但是现在运行
 
 1. `SET_INPUT_SHAPER SHAPER_TYPE=2HUMP_EI SHAPER_FREQ_X=40 SHAPER_FREQ_Y=40`
 1. `TUNING_TOWER COMMAND=SET_VELOCITY_LIMIT PARAMETER=ACCEL START=1500 STEP_DELTA=500 STEP_HEIGHT=5`
 
-Essentially, we are printing the ringing test model with TUNING_TOWER using 2HUMP_EI shaper with shaper_freq = 60 Hz, 50 Hz, and 40 Hz.
+本质上，我们正在使用 TUNING_TOWER 打印振纹测试模型，并使用 2HUMP_EI 整形器，整形器频率为60 Hz、50 Hz和40 Hz。
 
-If none of the models demonstrate improvements in ringing, then, unfortunately, it does not look like the input shaping techniques can help with your case.
+如果所有模型都没有在振纹方面显示出改进，那么很不幸，看起来输入整形技术无法帮助你的情况。
 
-Otherwise, it may be that all models show no ringing, or some show the ringing and some - not so much. Choose the test model with the highest frequency that still shows good improvements in ringing. For example, if 40 Hz and 50 Hz models show almost no ringing, and 60 Hz model already shows some more ringing, stick with 50 Hz.
+否则，可能所有模型都没有振纹，或者有些模型振纹，有些则没有那么明显。选择在振纹方面仍然表现出良好改进且频率最高的测试模型。例如，如果40 Hz和50 Hz的模型几乎没有振纹，而60 Hz的模型已经显示出更多的振纹，那么应当使用50 Hz。
 
-Now check if EI shaper would be good enough in your case. Choose EI shaper frequency based on the frequency of 2HUMP_EI shaper you chose:
+现在检查EI整形器是否在您的情况下足够好。根据您选择的 2HUMP_EI 整形器的频率来选择 EI 整形器的频率：
 
-* For 2HUMP_EI 60 Hz shaper, use EI shaper with shaper_freq = 50 Hz.
-* For 2HUMP_EI 50 Hz shaper, use EI shaper with shaper_freq = 40 Hz.
-* For 2HUMP_EI 40 Hz shaper, use EI shaper with shaper_freq = 33 Hz.
+* 对于2HUMP_EI整形器是 60 Hz 的，使用shaper_freq = 50 Hz的EI整形器。
+* 对于2HUMP_EI整形器是 50 Hz 的，使用shaper_freq = 40 Hz的EI整形器。
+* 对于2HUMP_EI整形器是 40 Hz 的，使用shaper_freq = 33 Hz的EI整形器。
 
-Now print the test model one more time, running
+现在再次打印测试模型，运行
 
 1. `SET_INPUT_SHAPER SHAPER_TYPE=EI SHAPER_FREQ_X=... SHAPER_FREQ_Y=...`
 1. `TUNING_TOWER COMMAND=SET_VELOCITY_LIMIT PARAMETER=ACCEL START=1500 STEP_DELTA=500 STEP_HEIGHT=5`
 
-providing the shaper_freq_x=... and shaper_freq_y=... as determined previously.
+提供之前确定的shaper_freq_x=... 和 shaper_freq_y=...。
 
-If EI shaper shows very comparable good results as 2HUMP_EI shaper, stick with EI shaper and the frequency determined earlier, otherwise use 2HUMP_EI shaper with the corresponding frequency. Add the results to `printer.cfg` as, e.g.
+如果EI整形器显示的结果与2HUMP_EI整形器非常相似且很好，那么坚持使用EI整形器和之前确定的频率，否则使用相应频率的2HUMP_EI整形器。将结果添加到`printer.cfg`中，例如：
 
 ```
 [input_shaper]
@@ -206,13 +206,13 @@ shaper_freq_y: 50
 shaper_type: 2hump_ei
 ```
 
-Continue the tuning with [Selecting max_accel](#selecting-max_accel) section.
+继续使用[选择最大加速度（Selecting max_accel）](#selecting-max_accel)章节进行调整。
 
-## Troubleshooting and FAQ
+## 故障排除和常见问题解答
 
-### I cannot get reliable measurements of resonance frequencies
+### 我无法可靠地测量共振频率
 
-First, make sure it is not some other problem with the printer instead of ringing. If the measurements are not reliable because, say, the distance between the oscillations is not stable, it might mean that the printer has several resonance frequencies on the same axis. One may try to follow the tuning process described in [Unreliable measurements of ringing frequencies](#unreliable-measurements-of-ringing-frequencies) section and still get something out of the input shaping technique. Another possibility is to install an accelerometer, [measure](Measuring_Resonances.md) the resonances with it, and auto-tune the input shaper using the results of those measurements.
+首先，请确保不是打印机的其他问题而是共振。如果测量结果不可靠，可能是因为振荡之间的距离不稳定，可能是打印机在同一轴上具有多个共振频率。可以尝试按照[不可靠的共振频率测量](#不可靠的共振频率测量)章节所述的调整过程，仍然可以从输入整形技术中获益。另一个可能性是安装加速度计，[使用其测量](Measuring_Resonances.md)共振，并使用这些测量结果自动调整输入整形器。
 
 ### After enabling [input_shaper], I get too smoothed printed parts and fine details are lost
 
@@ -258,7 +258,7 @@ Also note that EI, 2HUMP_EI, and 3HUMP_EI are tuned to reduce vibrations to 5%, 
 
 **How to use this table:**
 
-* Shaper duration affects the smoothing in parts - the larger it is, the more smooth the parts are. This dependency is not linear, but can give a sense of which shapers 'smooth' more for the same frequency. The ordering by smoothing is like this: ZV < MZV < ZVD ≈ EI < 2HUMP_EI < 3HUMP_EI. Also, it is rarely practical to set shaper_freq = resonance freq for shapers 2HUMP_EI and 3HUMP_EI (they should be used to reduce vibrations for several frequencies).
-* One can estimate a range of frequencies in which the shaper reduces vibrations. For example, MZV with shaper_freq = 35 Hz reduces vibrations to 5% for frequencies [33.6, 36.4] Hz. 3HUMP_EI with shaper_freq = 50 Hz reduces vibrations to 5% in range [27.5, 75] Hz.
-* One can use this table to check which shaper they should be using if they need to reduce vibrations at several frequencies. For example, if one has resonances at 35 Hz and 60 Hz on the same axis: a) EI shaper needs to have shaper_freq = 35 / (1 - 0.2) = 43.75 Hz, and it will reduce resonances until 43.75 * (1 + 0.2) = 52.5 Hz, so it is not sufficient; b) 2HUMP_EI shaper needs to have shaper_freq = 35 / (1 - 0.35) = 53.85 Hz and will reduce vibrations until 53.85 * (1 + 0.35) = 72.7 Hz - so this is an acceptable configuration. Always try to use as high shaper_freq as possible for a given shaper (perhaps with some safety margin, so in this example shaper_freq ≈ 50-52 Hz would work best), and try to use a shaper with as small shaper duration as possible.
-* If one needs to reduce vibrations at several very different frequencies (say, 30 Hz and 100 Hz), they may see that the table above does not provide enough information. In this case one may have more luck with [scripts/graph_shaper.py](../scripts/graph_shaper.py) script, which is more flexible.
+* “Shaper”持续时间会影响零件的平滑度——它越大，零件就越平滑。这种依赖性不是线性的，但可以让人感觉到哪些整形器在相同频率下更“平滑”。平滑排序如下：ZV<MZV<ZVD≈EI<2HUMP_EI<3HUMP_EI。此外，为整形器2HUMP_EI和3HUMP_EI设置shapper_freq＝谐振频率是不实际的（它们应该用于减少几个频率的振动）。
+* 可以估计整形器减少振动的频率范围。例如，shapper_freq=35Hz的MZV将频率[33.6,36.4]Hz的振动降低到5%。shaper_freq=50 Hz的3HUMP_EI将[27.5，75]Hz范围内的振动降低到5%。
+* 如果需要减少几个频率的振动，可以使用此表来检查应该使用哪个整形器。例如，如果在同一轴上有35Hz和60Hz的谐振：a）EI整形器需要shapper_freq=35/（1-0.2）=43.75Hz，并且它将减小谐振直到43.75*（1+0.2）=52.5Hz，所以这是不够的；b） 2HUMP_EI整形器需要shapper_freq=35/（1-0.35）=53.85 Hz，并且将减小振动直到53.85*（1+0.35）=72.7 Hz，因此这是可接受的配置。对于给定的整形器，始终尝试使用尽可能高的shapper_freq（可能有一些安全裕度，因此在本例中，shapper_freq≈50-52 Hz最有效），并尝试使用整形器持续时间尽可能短的整形器。
+* 如果需要减少几个非常不同频率（例如，30Hz和100Hz）的振动，他们可能会发现上表没有提供足够的信息。在这种情况下，使用[scripts/graph_shaper.py]（../scripts/graph_sShaper.py）脚本可能会更幸运，因为它更灵活。

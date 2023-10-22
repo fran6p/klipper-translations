@@ -3,18 +3,18 @@
 # Wagner Reck <wagner.reck@gmail.com>, 2022.
 # gbonaspetti <gbonaspetti@hotmail.com>, 2022.
 # Lucas Rafaldini <lrafaldini@pm.me>, 2022.
+# Vittor Paulo Vieira da Costa <vittorpaulovc@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: yifeiding@protonmail.com\n"
-"PO-Revision-Date: 2023-07-22 04:51+0000\n"
-"Last-Translator: Roberto Besser <rmbesser@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
-"klipper/g-codes/pt_BR/>\n"
+"PO-Revision-Date: 2023-09-16 16:26+0000\n"
+"Last-Translator: Vittor Paulo Vieira da Costa <vittorpaulovc@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/klipper/g-codes/pt_BR/>\n"
 "Language: pt_BR\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.0.2\n"
 
 msgid ""
 "This document describes the commands that Klipper supports. These are "
@@ -267,6 +267,8 @@ msgid ""
 "`ACCEPT`: This command accepts the current Z position and concludes the "
 "manual probing tool."
 msgstr ""
+"`ACCEPT`: Este comando aceita a posição Z atual e conclui a ferramenta de "
+"sondagem manual."
 
 msgid "`ABORT`: This command terminates the manual probing tool."
 msgstr "`ABORT`: Este comando encerra a ferramenta de sondagem manual."
@@ -407,6 +409,8 @@ msgid ""
 "`BED_MESH_CLEAR`: This command clears the mesh and removes all z adjustment."
 " It is recommended to put this in your end-gcode."
 msgstr ""
+"`BED_MESH_CLEAR`: Este comando apaga a malha e remove todos os ajustes em z."
+" É recomendável colocar isto em seu end-gcode."
 
 msgid ""
 "`BED_MESH_OFFSET [X=<value>] [Y=<value>]`: Applies X and/or Y offsets to the"
@@ -419,12 +423,6 @@ msgid ""
 "tool. It will command the nozzle to different locations (as defined in the "
 "config file) and allow one to make adjustments to the bed screws so that the"
 " bed is a constant distance from the nozzle."
-msgstr ""
-
-msgid ""
-"`SET_DUAL_CARRIAGE CARRIAGE=[0|1]`: This command will set the active "
-"carriage. It is typically invoked from the activate_gcode and "
-"deactivate_gcode fields in a multiple extruder configuration."
 msgstr ""
 
 msgid ""
@@ -599,24 +597,6 @@ msgid ""
 msgstr ""
 
 msgid ""
-"`SHAPER_CALIBRATE [AXIS=<axis>] [NAME=<name>] [FREQ_START=<min_freq>] "
-"[FREQ_END=<max_freq>] [HZ_PER_SEC=<hz_per_sec>] "
-"[MAX_SMOOTHING=<max_smoothing>]`: Similarly to `TEST_RESONANCES`, runs the "
-"resonance test as configured, and tries to find the optimal parameters for "
-"the input shaper for the requested axis (or both X and Y axes if `AXIS` "
-"parameter is unset). If `MAX_SMOOTHING` is unset, its value is taken from "
-"`[resonance_tester]` section, with the default being unset. See the [Max "
-"smoothing](Measuring_Resonances.md#max-smoothing) of the measuring "
-"resonances guide for more information on the use of this feature. The "
-"results of the tuning are printed to the console, and the frequency "
-"responses and the different input shapers values are written to a CSV "
-"file(s) `/tmp/calibration_data_<axis>_<name>.csv`. Unless specified, NAME "
-"defaults to the current time in \"YYYYMMDD_HHMMSS\" format. Note that the "
-"suggested input shaper parameters can be persisted in the config by issuing "
-"`SAVE_CONFIG` command."
-msgstr ""
-
-msgid ""
 "`PALETTE_CONNECT`: This command initializes the connection with the Palette "
 "2."
 msgstr ""
@@ -703,6 +683,18 @@ msgid ""
 "the accelerometer does not have a name in its config section (simply "
 "`[adxl345]`) then `<chip>` part of the name is not generated."
 msgstr ""
+"`ACCELEROMETER_MEASURE [CHIP=<nome_config>] [NAME=<valor>]`: Inicia as "
+"medidas de acelerômetro à taxa solicitada de amostras por segundo. Se CHIP "
+"não for especificado, é usado o padrão \"adxl345\". O comando funciona num "
+"modo início-parada: quando executado pela primeira vez, ele inicia as "
+"medidas, e a próxima execução as interrompe. Os resultados das medidas são "
+"escritos em um arquivo nomeado `/tmp/adxl345-<chip>-<nome>.csv`, onde "
+"`<chip>` é o nome do chip do acelerômetro (`nome_do_chip` de `[adxl345 "
+"nome_do_chip]`) e `<nome>` é o parâmetro opcional NAME. Se NAME não for "
+"especificado, é utilizado por padrão o horário atual no formato "
+"\"AAAAMMDD_HHMMSS\". Se o acelerômetro não possuir um nome na sua seção de "
+"configuração (simplesmente  `[adxl345]`), então a parte `<chip>` do nome não"
+" será gerada."
 
 #: docs/G-Codes.md:block 120 (unordered list)
 msgid ""
@@ -713,6 +705,12 @@ msgid ""
 "of the returned values should be a free-fall acceleration (+/- some noise of"
 " the chip)."
 msgstr ""
+"`ACCELEROMETER_QUERY [CHIP=<nome_config>] [RATE=<valor>]`: solicita o valor "
+"atual ao acelerômetro. Se CHIP não for especificado, é usado por padrão "
+"\"adxl345\". Se RATE não for especificada, o valor padrão é utilizado. Este "
+"comando é útil para testar a conexão com o acelerômetro ADXL345: um dos "
+"valores retornados deve ser uma aceleração de queda livre (+/- algum ruído "
+"do chip)."
 
 #: docs/G-Codes.md:block 105 (unordered list)
 msgid ""
@@ -735,7 +733,7 @@ msgstr ""
 
 #: docs/G-Codes.md:block 9 (header)
 msgid "Additional Commands"
-msgstr ""
+msgstr "Comandos Adicionais"
 
 #: docs/G-Codes.md:block 12 (header)
 msgid "[adxl345]"
@@ -754,11 +752,11 @@ msgstr "ACCELEROMETER_MEASURE"
 
 #: docs/G-Codes.md:block 16 (header)
 msgid "ACCELEROMETER_QUERY"
-msgstr ""
+msgstr "ACCELEROMETER_QUERY"
 
 #: docs/G-Codes.md:block 18 (header)
 msgid "ACCELEROMETER_DEBUG_READ"
-msgstr ""
+msgstr "ACCELEROMETER_DEBUG_READ"
 
 #: docs/G-Codes.md:block 19 (paragraph)
 msgid ""
@@ -766,13 +764,13 @@ msgid ""
 "ADXL345 register \"register\" (e.g. 44 or 0x2C). Can be useful for debugging"
 " purposes."
 msgstr ""
-"`ACCELEROMETER_DEBUG_READ [CHIP=<config_name>] REG=<register>`: consultas "
-"ADXL345 registar \"register\" (por exemplo 44 ou 0x2C). Pode ser útil para "
-"efeitos de depuração."
+"`ACCELEROMETER_DEBUG_READ [CHIP=<nome_config>] REG=<registro>`: consulta o "
+"registro \"registro\" do ADXL345 (por exemplo 44 ou 0x2C). Pode ser útil "
+"para fins de depuração."
 
 #: docs/G-Codes.md:block 20 (header)
 msgid "ACCELEROMETER_DEBUG_WRITE"
-msgstr "ACELEROMETRO_DEBUG_ESCRITA"
+msgstr "ACCELEROMETER_DEBUG_WRITE"
 
 #: docs/G-Codes.md:block 21 (paragraph)
 msgid ""
@@ -781,10 +779,10 @@ msgid ""
 "\"register\" can be a decimal or a hexadecimal integer. Use with care, and "
 "refer to ADXL345 data sheet for the reference."
 msgstr ""
-"`ACCELEROMETER_DEBUG_WRITE [CHIP=<config_name>] REG=<register> VAL=<value>`:"
-" Escreve \"value\" em bruto num registo \"register\". Tanto \"value\" como "
-"\"register\" podem ser um número inteiro decimal ou hexadecimal. Use com "
-"cuidado, e consulte a folha de dados ADXL345 para a referência."
+"`ACCELEROMETER_DEBUG_WRITE [CHIP=<nome_config>] REG=<registro> VAL=<valor>`:"
+" Escreve o \"valor\" bruto num registro \"registro\". Tanto \"valor\" como "
+"\"registro\" podem ser um número inteiro decimal ou hexadecimal. Use com "
+"cuidado, e consulte a folha de dados ADXL345 para referência."
 
 #: docs/G-Codes.md:block 22 (header)
 msgid "[bed_mesh]"
@@ -799,7 +797,7 @@ msgstr ""
 
 #: docs/G-Codes.md:block 24 (header)
 msgid "BED_MESH_CALIBRATE"
-msgstr ""
+msgstr "BED_MESH_CALIBRATE"
 
 #: docs/G-Codes.md:block 26 (header)
 msgid "BED_MESH_OUTPUT"
@@ -807,11 +805,11 @@ msgstr ""
 
 #: docs/G-Codes.md:block 28 (header)
 msgid "BED_MESH_MAP"
-msgstr ""
+msgstr "BED_MESH_MAP"
 
 #: docs/G-Codes.md:block 30 (header)
 msgid "BED_MESH_CLEAR"
-msgstr ""
+msgstr "BED_MESH_CLEAR"
 
 #: docs/G-Codes.md:block 32 (header)
 msgid "BED_MESH_PROFILE"
@@ -1001,7 +999,7 @@ msgstr ""
 
 #: docs/G-Codes.md:block 81 (header)
 msgid "ACTIVATE_EXTRUDER"
-msgstr ""
+msgstr "ACTIVATE_EXTRUDER"
 
 #: docs/G-Codes.md:block 83 (header)
 msgid "SET_PRESSURE_ADVANCE"
@@ -1823,6 +1821,9 @@ msgid ""
 "[extruder](Config_Reference.md#extruder) config sections, this command "
 "changes the active hotend."
 msgstr ""
+"`ACTIVATE_EXTRUDER EXTRUDER=<nome_config>`: Numa impressora com múltiplas "
+"seções de configuração [extruder](Config_Reference.md#extruder), este "
+"comando altera a extrusora ativa."
 
 #: docs/G-Codes.md:block 22 (header)
 msgid "[angle]"
@@ -1836,7 +1837,7 @@ msgstr ""
 
 #: docs/G-Codes.md:block 24 (header)
 msgid "ANGLE_CALIBRATE"
-msgstr ""
+msgstr "ANGLE_CALIBRATE"
 
 #: docs/G-Codes.md:block 25 (paragraph)
 msgid ""
@@ -1854,10 +1855,24 @@ msgid ""
 "the [measuring resonance document](Measuring_Resonances.md#software-"
 "installation) for more information)."
 msgstr ""
+"`ANGLE_CALIBRATE CHIP=<nome_chip>`: Realiza a calibração de ângulo no sensor"
+" fornecido (deve haver uma seção de configuração `[angle chip_name]` que "
+"tenha especificado um parâmetro `stepper`). IMPORTANTE - esta ferramenta "
+"comandará o motor de passo a se mover sem verificar os limites de fronteira "
+"cinemática normais. Idealmente, o motor deve estar desconectado de qualquer "
+"carro da impressora antes de se realizar a calibração. Se o motor de passo "
+"não puder ser desconectado da impressora, certifique-se de que o carro está "
+"próximo do centro de seu trilho antes de começar a calibração. (O motor de "
+"passos pode se mover para frente ou para trás duas rotações completas "
+"durante o teste.) Depois de completar este teste, use o comando "
+"`SAVE_CONFIG` para salvar os dados de calibração no arquivo de configuração."
+" Para usar esta ferramenta, o pacote Python \"numpy\" deve estar instalado "
+"(ver o [measuring resonance document](Measuring_Resonances.md#software-"
+"installation) para mais informações)."
 
 #: docs/G-Codes.md:block 26 (header)
 msgid "ANGLE_DEBUG_READ"
-msgstr ""
+msgstr "ANGLE_DEBUG_READ"
 
 #: docs/G-Codes.md:block 27 (paragraph)
 msgid ""
@@ -1865,10 +1880,13 @@ msgid ""
 "register \"register\" (e.g. 44 or 0x2C). Can be useful for debugging "
 "purposes. This is only available for tle5012b chips."
 msgstr ""
+"`ANGLE_DEBUG_READ` CHIP=<nome_config> REG=<registro>`: solicita o registro "
+"\"registro\" ao sensor (por exemplo 44 ou 0x2C). Pode ser útil para fins de "
+"depuração. Este comando só está disponível para chips tle5012b."
 
 #: docs/G-Codes.md:block 28 (header)
 msgid "ANGLE_DEBUG_WRITE"
-msgstr ""
+msgstr "ANGLE_DEBUG_WRITE"
 
 #: docs/G-Codes.md:block 29 (paragraph)
 msgid ""
@@ -1878,6 +1896,11 @@ msgid ""
 "sensor data sheet for the reference. This is only available for tle5012b "
 "chips."
 msgstr ""
+"`ANGLE_DEBUG_WRITE CHIP=<nome_config> REG=<registro> VAL=<valor>`: escreve o"
+" \"valor\" bruto no registro \"registro\". Ambos \"valor\" e \"registro\" "
+"podem ser um número inteiro decimal ou hexadecimal. Use com cuidado, e "
+"consulte a folha de dados do sensor para referência. Este comando só está "
+"disponível para chips tle5012b."
 
 #: docs/G-Codes.md:block 199 (header)
 msgid "[led]"
@@ -2172,7 +2195,7 @@ msgstr ""
 
 #: docs/G-Codes.md:block 79 (paragraph)
 msgid "Also provided is the following extended G-Code command:"
-msgstr ""
+msgstr "O seguinte comando G-Code estendido também é providenciado:"
 
 #: docs/G-Codes.md:block 80 (unordered list)
 msgid ""
@@ -2268,10 +2291,14 @@ msgid ""
 "[Y<pos>] [Z<pos>] [E<pos>] [F<speed>] I<value> J<value>|I<value> "
 "K<value>|J<value> K<value>`"
 msgstr ""
+"Movimento em Arco Sentido Horário (G2), Movimento em Arco Sentido Anti-"
+"Horário (G3): `G2|G3  [X<pos>] [Y<pos>] [Z<pos>] [E<pos>] [F<velocidade>] "
+"I<valor> J<valor>|I<valor> K<valor>|J<valor> K<valor>`"
 
 #: docs/G-Codes.md:block 158 (unordered list)
 msgid "Arc Plane Select: G17 (XY plane), G18 (XZ plane), G19 (YZ plane)"
 msgstr ""
+"Seleção de Plano do Arco: G17 (plano XY), G18 (plano XZ), G19 (plano YZ)"
 
 #: docs/G-Codes.md:block 231 (paragraph)
 msgid ""
@@ -2303,6 +2330,16 @@ msgid ""
 "`HORIZONTAL_MOVE_Z` value overrides the `horizontal_move_z` option specified"
 " in the config file."
 msgstr ""
+"`BED_MESH_CALIBRATE [METHOD=manual] [HORIZONTAL_MOVE_Z=<valor>] "
+"[<parâmetro_sonda>=<valor>] [<parâmetro_malha>=<valor>]`: Este comando sonda"
+" o leito usando-se os pontos gerados especificados pelos parâmetros na "
+"configuração. Após a sondagem, uma malha é gerada e o movimento-z é ajustado"
+" de acordo com a malha. Veja o comando PROBE para detalhes sobre os "
+"parâmetros opcionais de sonda. Se METHOD=manual for especificado então a "
+"ferramenta de sondagem manual é ativada - ver o comando MANUAL_PROBE acima "
+"para detalhes sobre os comandos adicionais disponíveis enquanto esta "
+"ferramenta estiver ativa. O valor opcional `HORIZONTAL_MOVE_Z` se sobrepõe à"
+" opção `horizontal_move_z` especificada no arquivo de configurações."
 
 #: docs/G-Codes.md:block 51 (paragraph)
 msgid ""
@@ -2384,6 +2421,114 @@ msgid ""
 "`HORIZONTAL_MOVE_Z` value overrides the `horizontal_move_z` option specified"
 " in the config file."
 msgstr ""
+
+#: docs/G-Codes.md:block 84 (paragraph)
+msgid ""
+"`SET_DUAL_CARRIAGE CARRIAGE=[0|1] [MODE=[PRIMARY|COPY|MIRROR]]`: This "
+"command will change the mode of the specified carriage. If no `MODE` is "
+"provided it defaults to `PRIMARY`. Setting the mode to `PRIMARY` deactivates"
+" the other carriage and makes the specified carriage execute subsequent "
+"G-Code commands as-is. `COPY` and `MIRROR` modes are supported only for "
+"`CARRIAGE=1`. When set to either of these modes, carriage 1 will then track "
+"the subsequent moves of the carriage 0 and either copy relative movements of"
+" it (in `COPY` mode) or execute them in the opposite (mirror) direction (in "
+"`MIRROR` mode)."
+msgstr ""
+
+#: docs/G-Codes.md:block 85 (header)
+msgid "SAVE_DUAL_CARRIAGE_STATE"
+msgstr ""
+
+#: docs/G-Codes.md:block 86 (paragraph)
+msgid ""
+"`SAVE_DUAL_CARRIAGE_STATE [NAME=<state_name>]`: Save the current positions "
+"of the dual carriages and their modes. Saving and restoring DUAL_CARRIAGE "
+"state can be useful in scripts and macros, as well as in homing routine "
+"overrides. If NAME is provided it allows one to name the saved state to the "
+"given string. If NAME is not provided it defaults to \"default\"."
+msgstr ""
+
+#: docs/G-Codes.md:block 87 (header)
+msgid "RESTORE_DUAL_CARRIAGE_STATE"
+msgstr ""
+
+#: docs/G-Codes.md:block 88 (paragraph)
+msgid ""
+"`RESTORE_DUAL_CARRIAGE_STATE [NAME=<state_name>] [MOVE=[0|1] "
+"[MOVE_SPEED=<speed>]]`: Restore the previously saved positions of the dual "
+"carriages and their modes, unless \"MOVE=0\" is specified, in which case "
+"only the saved modes will be restored, but not the positions of the "
+"carriages. If positions are being restored and \"MOVE_SPEED\" is specified, "
+"then the toolhead moves will be performed with the given speed (in mm/s); "
+"otherwise the toolhead move will use the rail homing speed. Note that the "
+"carriages restore their positions only over their own axis, which may be "
+"necessary to correctly restore COPY and MIRROR mode of the dual carraige."
+msgstr ""
+
+#: docs/G-Codes.md:block 298 (paragraph)
+msgid ""
+"`SHAPER_CALIBRATE [AXIS=<axis>] [NAME=<name>] [FREQ_START=<min_freq>] "
+"[FREQ_END=<max_freq>] [HZ_PER_SEC=<hz_per_sec>] [CHIPS=<adxl345_chip_name>] "
+"[MAX_SMOOTHING=<max_smoothing>]`: Similarly to `TEST_RESONANCES`, runs the "
+"resonance test as configured, and tries to find the optimal parameters for "
+"the input shaper for the requested axis (or both X and Y axes if `AXIS` "
+"parameter is unset). If `MAX_SMOOTHING` is unset, its value is taken from "
+"`[resonance_tester]` section, with the default being unset. See the [Max "
+"smoothing](Measuring_Resonances.md#max-smoothing) of the measuring "
+"resonances guide for more information on the use of this feature. The "
+"results of the tuning are printed to the console, and the frequency "
+"responses and the different input shapers values are written to a CSV "
+"file(s) `/tmp/calibration_data_<axis>_<name>.csv`. Unless specified, NAME "
+"defaults to the current time in \"YYYYMMDD_HHMMSS\" format. Note that the "
+"suggested input shaper parameters can be persisted in the config by issuing "
+"`SAVE_CONFIG` command, and if `[input_shaper]` was already enabled "
+"previously, these parameters take effect immediately."
+msgstr ""
+
+#: docs/G-Codes.md:block 376 (header)
+msgid "[axis_twist_compensation]"
+msgstr ""
+
+#: docs/G-Codes.md:block 377 (paragraph)
+msgid ""
+"The following commands are available when the [axis_twist_compensation "
+"config section](Config_Reference.md#axis_twist_compensation) is enabled."
+msgstr ""
+
+#: docs/G-Codes.md:block 378 (header)
+msgid "AXIS_TWIST_COMPENSATION_CALIBRATE"
+msgstr ""
+
+#: docs/G-Codes.md:block 379 (paragraph)
+msgid ""
+"`AXIS_TWIST_COMPENSATION_CALIBRATE [SAMPLE_COUNT=<value>]`: Initiates the X "
+"twist calibration wizard. `SAMPLE_COUNT` specifies the number of points "
+"along the X axis to calibrate at and defaults to 3."
+msgstr ""
+
+#~ msgid ""
+#~ "`SET_DUAL_CARRIAGE CARRIAGE=[0|1]`: This command will set the active "
+#~ "carriage. It is typically invoked from the activate_gcode and "
+#~ "deactivate_gcode fields in a multiple extruder configuration."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "`SHAPER_CALIBRATE [AXIS=<axis>] [NAME=<name>] [FREQ_START=<min_freq>] "
+#~ "[FREQ_END=<max_freq>] [HZ_PER_SEC=<hz_per_sec>] "
+#~ "[MAX_SMOOTHING=<max_smoothing>]`: Similarly to `TEST_RESONANCES`, runs the "
+#~ "resonance test as configured, and tries to find the optimal parameters for "
+#~ "the input shaper for the requested axis (or both X and Y axes if `AXIS` "
+#~ "parameter is unset). If `MAX_SMOOTHING` is unset, its value is taken from "
+#~ "`[resonance_tester]` section, with the default being unset. See the [Max "
+#~ "smoothing](Measuring_Resonances.md#max-smoothing) of the measuring "
+#~ "resonances guide for more information on the use of this feature. The "
+#~ "results of the tuning are printed to the console, and the frequency "
+#~ "responses and the different input shapers values are written to a CSV "
+#~ "file(s) `/tmp/calibration_data_<axis>_<name>.csv`. Unless specified, NAME "
+#~ "defaults to the current time in \"YYYYMMDD_HHMMSS\" format. Note that the "
+#~ "suggested input shaper parameters can be persisted in the config by issuing "
+#~ "`SAVE_CONFIG` command."
+#~ msgstr ""
 
 #~ msgid ""
 #~ "`DELTA_CALIBRATE [METHOD=manual] [<probe_parameter>=<value>]`: This command "

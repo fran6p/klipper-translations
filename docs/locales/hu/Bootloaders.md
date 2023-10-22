@@ -210,7 +210,7 @@ Az STM32F103 eszközök rendelkeznek egy ROM-mal, amely 3,3 V-os soros kapcsolat
 stm32flash -w out/klipper.bin -v -g 0 /dev/ttyAMA0
 ```
 
-Vedd figyelembe, hogy ha Raspberry Pi-t használ a 3,3V-os soros kapcsolathoz, az stm32flash protokoll olyan soros paritásmódot használ, amelyet a Raspberry Pi "mini UART" nem támogat. Lásd <https://www.raspberrypi.com/documentation/computers/configuration.html#configuring-uarts> a teljes uart engedélyezéséről a Raspberry Pi GPIO tűin.
+Vedd figyelembe, hogy ha Raspberry Pi-t használsz a 3,3V-os soros kapcsolathoz, az stm32flash protokoll olyan soros paritásmódot használ, amelyet a Raspberry Pi "mini UART" nem támogat. Lásd <https://www.raspberrypi.com/documentation/computers/configuration.html#configuring-uarts> a teljes uart engedélyezéséről a Raspberry Pi GPIO tűin.
 
 Az égetés után állítsd vissza a "boot 0" és a "boot 1" értéket alacsonyra, hogy a jövőben az égetésről induló rendszer újrainduljon.
 
@@ -309,7 +309,7 @@ VAGY ha a klippert korábban már égették:
 make flash FLASH_DEVICE=/dev/ttyACM0
 ```
 
-Szükség lehet a bootloader manuális belépésére, ezt a "boot 0" alacsony és a "boot 1" magas értékének beállításával lehet megtenni. Az SKR Mini E3 lapon a "Boot 1" nem elérhető, ezért a "hid_btt_skr_mini_e3.bin" égetése esetén a PA2 tű alacsonyra húzásával lehet ezt megtenni. Ez a tű "TX0" feliratú a TFT fejlécén az SKR Mini E3 "PIN" dokumentumában. A PA2 mellett van egy földelt tű, amelyet a PA2 alacsonyra húzására használhatsz.
+Szükség lehet a bootloader manuális belépésére, ezt a "boot 0" alacsony és a "boot 1" magas értékének beállításával lehet megtenni. Az SKR Mini E3 lapon a "Boot 1" nem elérhető, ezért a "hid_btt_skr_mini_e3.bin" égetése esetén a PA2 tű alacsonyra húzásával teheted meg. Ez a tű "TX0" feliratú a TFT fejlécén az SKR Mini E3 "PIN" dokumentumában. A PA2 mellett van egy földelt tű, amelyet a PA2 alacsonyra húzására használhatsz.
 
 ### STM32F103/STM32F072 MSC bootloaderrel
 
@@ -323,7 +323,7 @@ Az STM32F072 lapok esetében a bootloader USB-n keresztül (DFU-n keresztül) is
  dfu-util -d 0483:df11 -a 0 -R -D  MSCboot-STM32F072.bin -s0x08000000:leave
 ```
 
-Ez a bootloader 8KiB vagy 16KiB flash helyet használ, lásd a bootloader leírását (az alkalmazást a megfelelő kezdőcímmel kell lefordítani).
+Ez a bootloader 8KiB vagy 16KiB memória helyet használ, lásd a bootloader leírását (az alkalmazást a megfelelő kezdőcímmel kell lefordítani).
 
 A bootloader a kártya reset gombjának kétszeri megnyomásával aktiválható. Amint a bootloader aktiválódik, a kártya USB flash meghajtóként jelenik meg, amelyre a klipper.bin fájl másolható.
 
@@ -343,19 +343,19 @@ python3 flash_can.py -q
 
 Ez visszaadja az összes olyan csatlakoztatott csomópont UUID-jét, amelyhez jelenleg nem tartozik UUID. Ennek tartalmaznia kell a jelenlegi bootloaderben lévő összes csomópontot.
 
-Ha megvan az UUID, a következő paranccsal tölthet fel firmware-t:
+Ha megvan az UUID, a következő paranccsal tölthetsz fel firmware-t:
 
 ```
 python3 flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u aabbccddeeff
 ```
 
-Ahol `aabbccddeeff` helyébe az Ön UUID-je lép. Vedd figyelembe, hogy a `-i` és `-f` opciók elhagyhatók, ezek alapértelmezett értéke `can0` és `~/klipper/out/klipper.bin`.
+Ahol `aabbccddeeff` helyébe a Te UUID-d lép. Vedd figyelembe, hogy a `-i` és `-f` opciók elhagyhatók, ezek alapértelmezett értéke `can0` és `~/klipper/out/klipper.bin`.
 
 Amikor a Klippert a CanBoot-al való használatra készíted, válaszd a 8 KiB-os bootloader opciót.
 
 ## STM32F4 mikrovezérlők (SKR Pro 1.1)
 
-Az STM32F4 mikrovezérlők beépített rendszerbetöltővel vannak felszerelve, amely képes USB-n keresztül (DFU módban), 3,3V-os soros és különböző más módszerekkel égetni (további információkért lásd az STM AN2606 dokumentumát). Egyes STM32F4 lapok, mint például az SKR Pro 1.1, nem képesek belépni a DFU bootloaderbe. A HID bootloader elérhető az STM32F405/407 alapú lapokhoz, amennyiben a felhasználó az USB-n keresztül történő égetést részesíti előnyben az SD-kártya használatával szemben. Ne feledd, hogy szükség lehet egy, az alaplappal specifikus verzió konfigurálására és építésére, egy [az SKR Pro 1.1-es verzióra vonatkozó bootloader elérhető itt](https://github.com/Arksine/STM32_HID_Bootloader/releases/latest).
+Az STM32F4 mikrovezérlők beépített rendszerbetöltővel vannak felszerelve, amely képes USB-n keresztül (DFU módban), 3,3V-os soros és különböző más módszerekkel égetni (további információkért lásd az STM AN2606 dokumentumát). Egyes STM32F4 lapok, mint például az SKR Pro 1.1, nem képesek belépni a DFU bootloaderbe. A HID bootloader elérhető az STM32F405/407 alapú lapokhoz, amennyiben a felhasználó az USB-n keresztül történő égetést részesíti előnyben az SD-kártya használatával szemben. Ne feledd, hogy szükség lehet egy, az alaplappal specifikus verzió konfigurálására és égetésére, egy [az SKR Pro 1.1-es verzióra vonatkozó bootloader elérhető itt](https://github.com/Arksine/STM32_HID_Bootloader/releases/latest).
 
 Hacsak a lapod nem DFU-képes, a legkönnyebben elérhető égetési módszer valószínűleg a 3,3V-os soros, amely ugyanazt az eljárást követi, mint [az STM32F103 égetése az stm32flash segítségével](#stm32f103-micro-controllers-blue-pill-devices). Például:
 
