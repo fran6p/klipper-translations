@@ -1,10 +1,10 @@
 # 共振值测量
 
-Klipper has built-in support for the ADXL345 and MPU-9250 compatible accelerometers which can be used to measure resonance frequencies of the printer for different axes, and auto-tune [input shapers](Resonance_Compensation.md) to compensate for resonances. Note that using accelerometers requires some soldering and crimping. The ADXL345 can be connected to the SPI interface of a Raspberry Pi or MCU board (it needs to be reasonably fast). The MPU family can be connected to the I2C interface of a Raspberry Pi directly, or to an I2C interface of an MCU board that supports 400kbit/s *fast mode* in Klipper.
+Klipper has built-in support for the ADXL345, MPU-9250 and LIS2DW compatible accelerometers which can be used to measure resonance frequencies of the printer for different axes, and auto-tune [input shapers](Resonance_Compensation.md) to compensate for resonances. Note that using accelerometers requires some soldering and crimping. The ADXL345/LIS2DW can be connected to the SPI interface of a Raspberry Pi or MCU board (it needs to be reasonably fast). The MPU family can be connected to the I2C interface of a Raspberry Pi directly, or to an I2C interface of an MCU board that supports 400kbit/s *fast mode* in Klipper.
 
 When sourcing accelerometers, be aware that there are a variety of different PCB board designs and different clones of them. If it is going to be connected to a 5V printer MCU ensure it has a voltage regulator and level shifters.
 
-For ADXL345s, make sure that the board supports SPI mode (a small number of boards appear to be hard-configured for I2C by pulling SDO to GND).
+For ADXL345s/LIS2DWs, make sure that the board supports SPI mode (a small number of boards appear to be hard-configured for I2C by pulling SDO to GND).
 
 For MPU-9250/MPU-9255/MPU-6515/MPU-6050/MPU-6500s there are also a variety of board designs and clones with different I2C pull-up resistors which will need supplementing.
 
@@ -252,6 +252,26 @@ If setting up the ADXL345 configuration in a separate file, as shown above, you'
 ```
 
 通过`RESTART`命令重启Klipper。
+
+#### Configure LIS2DW series
+
+```
+[mcu lis]
+# Change <mySerial> to whatever you found above. For example,
+# usb-Klipper_rp2040_E661640843545B2E-if00
+serial: /dev/serial/by-id/usb-Klipper_rp2040_<mySerial>
+
+[lis2dw]
+cs_pin: lis:gpio1
+spi_bus: spi0a
+axes_map: x,z,y
+
+[resonance_tester]
+accel_chip: lis2dw
+probe_points:
+    # Somewhere slightly above the middle of your print bed
+    147,154, 20
+```
 
 #### Configure MPU-6000/9000 series With RPi
 
@@ -604,22 +624,22 @@ SHAPER_CALIBRATE AXIS=X
 
 ## 离线处理加速计数据
 
-It is possible to generate the raw accelerometer data and process it offline (e.g. on a host machine), for example to find resonances. In order to do so, run the following commands via Octoprint terminal:
+可以生成原始的加速度计数据并离线处理（例如在一台电脑上），以查找共振频率为例，在Octoprint的终端内运行如下命令：
 
 ```
 SET_INPUT_SHAPER SHAPER_FREQ_X=0 SHAPER_FREQ_Y=0
 TEST_RESONANCES AXIS=X OUTPUT=raw_data
 ```
 
-ignoring any errors for `SET_INPUT_SHAPER` command. For `TEST_RESONANCES` command, specify the desired test axis. The raw data will be written into `/tmp` directory on the RPi.
+忽略`SET_INPUT_SHAPER`命令的任何错误。对`TEST_RESONANCES`指定测试的方向。原始数据保存至`/tmp`目录内。
 
-在一些正常的打印机活动中，也可以通过运行命令“ACCELEROMETER_MEASURE”两次来获得原始数据——首先是开始测量，然后是停止测量并写入输出文件。有关更多详细信息，请参阅[G-Codes]（G-Codes.md#adxl345）。
+在一些正常的打印机活动中，也可以通过运行命令 `ACCELEROMETER_MEASURE`两次来获得原始数据——首先是开始测量，然后是停止测量并写入输出文件。有关更多详细信息，请参阅[G-Codes](G-Codes.md#adxl345)。
 
-The data can be processed later by the following scripts: `scripts/graph_accelerometer.py` and `scripts/calibrate_shaper.py`. Both of them accept one or several raw csv files as the input depending on the mode. The graph_accelerometer.py script supports several modes of operation:
+这些数据可在以后通过`scripts/graph_accelerometer.py`和scripts/calibrate_shaper.py`脚本进行处理，在不同的工作模式下，两种脚本支持一个或多个原始数据csv文件作为输入。graph_accelerometer.py支持以下几种模式：
 
-* plotting raw accelerometer data (use `-r` parameter), only 1 input is supported;
-* plotting a frequency response (no extra parameters required), if multiple inputs are specified, the average frequency response is computed;
-* comparison of the frequency response between several inputs (use `-c` parameter); you can additionally specify which accelerometer axis to consider via `-a x`, `-a y` or `-a z` parameter (if none specified, the sum of vibrations for all axes is used);
+* 绘制原始加速度数据图（使用`-r`参数），仅支持一个输入；
+* 绘制频率响应图（无需额外参数），如果指定了多个输入文件，将计算他们的平均值；
+* 在多个输入之间比较频率响应曲线（使用`-c`参数）；通过`-ax，`-ay`或`-az`参数，可以额外指定哪个轴参与比较（在未指定时将计算所有轴振动的总和）;
 * plotting the spectrogram (use `-s` parameter), only 1 input is supported; you can additionally specify which accelerometer axis to consider via `-a x`, `-a y` or `-a z` parameter (if none specified, the sum of vibrations for all axes is used).
 
 Note that graph_accelerometer.py script supports only the raw_data\*.csv files and not resonances\*.csv or calibration_data\*.csv files.

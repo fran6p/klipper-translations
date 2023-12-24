@@ -1531,6 +1531,27 @@ cs_pin:
 #   measurements.
 ```
 
+### [lis2dw]
+
+Support for LIS2DW accelerometers.
+
+```
+[lis2dw]
+cs_pin:
+#   The SPI enable pin for the sensor. This parameter must be provided.
+#spi_speed: 5000000
+#   The SPI speed (in hz) to use when communicating with the chip.
+#   The default is 5000000.
+#spi_bus:
+#spi_software_sclk_pin:
+#spi_software_mosi_pin:
+#spi_software_miso_pin:
+#   See the "common SPI settings" section for a description of the
+#   above parameters.
+#axes_map: x, y, z
+#   See the "adxl345" section for information on this parameter.
+```
+
 ### [mpu9250]
 
 Supporto per accelerometri MPU-9250, MPU-9255, MPU-6515, MPU-6050 e MPU-6500 (è possibile definire un numero qualsiasi di sezioni con un prefisso "mpu9250").
@@ -1817,6 +1838,33 @@ z_offset:
 #   Vedere la sezione "probe" per ulteriori informazioni sui parametri di cui sopra.
 ```
 
+### [axis_twist_compensation]
+
+Uno strumento per compensare letture imprecise della sonda dovute alla torsione nel portale X. Consultare la [Guida alla compensazione della torsione dell'asse](Axis_Twist_Compensation.md) per informazioni più dettagliate su sintomi, configurazione e impostazione.
+
+```
+[axis_twist_compensation]
+#speed: 50
+#   The speed (in mm/s) of non-probing moves during the calibration.
+#   The default is 50.
+#horizontal_move_z: 5
+#   The height (in mm) that the head should be commanded to move to
+#   just prior to starting a probe operation. The default is 5.
+calibrate_start_x: 20
+#   Defines the minimum X coordinate of the calibration
+#   This should be the X coordinate that positions the nozzle at the starting
+#   calibration position. This parameter must be provided.
+calibrate_end_x: 200
+#   Defines the maximum X coordinate of the calibration
+#   This should be the X coordinate that positions the nozzle at the ending
+#   calibration position. This parameter must be provided.
+calibrate_y: 112.5
+#   Defines the Y coordinate of the calibration
+#   This should be the Y coordinate that positions the nozzle during the
+#   calibration process. This parameter must be provided and is recommended to
+#   be near the center of the bed
+```
+
 ## Motori passo-passo ed estrusori aggiuntivi
 
 ### [stepper_z1]
@@ -1857,15 +1905,26 @@ Vedere [sample-multi-extruder.cfg](../config/sample-multi-extruder.cfg) per un e
 
 ### [dual_carriage]
 
-Supporto per stampanti cartesiane con doppi carrelli su un unico asse. Il carrello attivo viene impostato tramite il comando G-code esteso SET_DUAL_CARRIAGE. Il comando "SET_DUAL_CARRIAGE CARRIAGE=1" attiverà il carrello definito in questa sezione (CARRIAGE=0 riporterà l'attivazione al carrello principale). Il supporto del doppio carrello è in genere combinato con estrusori extra: il comando SET_DUAL_CARRIAGE viene spesso chiamato contemporaneamente al comando ACTIVATE_EXTRUDER. Assicurati di parcheggiare i carrelli durante la disattivazione.
+Support for cartesian and hybrid_corexy/z printers with dual carriages on a single axis. The carriage mode can be set via the SET_DUAL_CARRIAGE extended g-code command. For example, "SET_DUAL_CARRIAGE CARRIAGE=1" command will activate the carriage defined in this section (CARRIAGE=0 will return activation to the primary carriage). Dual carriage support is typically combined with extra extruders - the SET_DUAL_CARRIAGE command is often called at the same time as the ACTIVATE_EXTRUDER command. Be sure to park the carriages during deactivation. Note that during G28 homing, typically the primary carriage is homed first followed by the carriage defined in the `[dual_carriage]` config section. However, the `[dual_carriage]` carriage will be homed first if both carriages home in a positive direction and the [dual_carriage] carriage has a `position_endstop` greater than the primary carriage, or if both carriages home in a negative direction and the `[dual_carriage]` carriage has a `position_endstop` less than the primary carriage.
+
+Inoltre, è possibile utilizzare i comandi "SET_DUAL_CARRIAGE CARRIAGE=1 MODE=COPY" o "SET_DUAL_CARRIAGE CARRIAGE=1 MODE=MIRROR" per attivare la modalità di copia o di mirroring del doppio carrello, nel qual caso seguirà di conseguenza il movimento del carrello 0 . Questi comandi possono essere utilizzati per stampare due parti contemporaneamente: due parti identiche (in modalità COPIA) o parti specchiate (in modalità SPECCHIO). Tieni presente che le modalità COPY e MIRROR richiedono anche la configurazione appropriata dell'estrusore sul doppio carrello, che in genere può essere ottenuta con "SYNC_EXTRUDER_MOTION MOTION_QUEUE=extruder EXTRUDER=<dual_carriage_extruder>" o un comando simile.
 
 Vedere [sample-idex.cfg](../config/sample-idex.cfg) per un esempio di configurazione.
 
 ```
 [dual_carriage]
 axis:
-#   L'asse su cui si trova questo carrello aggiuntivo (x o y). Questo parametro
-#   deve essere fornito
+#   The axis this extra carriage is on (either x or y). This parameter
+#   must be provided.
+#safe_distance:
+#   The minimum distance (in mm) to enforce between the dual and the primary
+#   carriages. If a G-Code command is executed that will bring the carriages
+#   closer than the specified limit, such a command will be rejected with an
+#   error. If safe_distance is not provided, it will be inferred from
+#   position_min and position_max for the dual and primary carriages. If set
+#   to 0 (or safe_distance is unset and position_min and position_max are
+#   identical for the primary and dual carraiges), the carriages proximity
+#   checks will be disabled.
 #step_pin:
 #dir_pin:
 #enable_pin:
@@ -1875,7 +1934,7 @@ axis:
 #position_endstop:
 #position_min:
 #position_max:
-#   Vedere la sezione "stepper" per la definizione dei parametri di cui sopra.
+#   See the "stepper" section for the definition of the above parameters.
 ```
 
 ### [extruder_stepper]
@@ -2182,9 +2241,9 @@ sensor_type: BME280
 #   above parameters.
 ```
 
-### AHT10/AHT20/AHT21 temperature sensor
+### Sensore temperatura AHT10/AHT20/AHT21
 
-AHT10/AHT20/AHT21 two wire interface (I2C) environmental sensors. Note that these sensors are not intended for use with extruders and heater beds, but rather for monitoring ambient temperature (C) and relative humidity. See [sample-macros.cfg](../config/sample-macros.cfg) for a gcode_macro that may be used to report humidity in addition to temperature.
+Sensori ambientali con interfaccia a due fili (I2C) AHT10/AHT20/AHT21. Si noti che questi sensori non sono destinati all'uso con estrusori e letti riscaldanti, ma piuttosto per il monitoraggio della temperatura ambiente (C) e dell'umidità relativa. Vedi [sample-macros.cfg](../config/sample-macros.cfg) per un gcode_macro che può essere utilizzato per segnalare l'umidità oltre alla temperatura.
 
 ```
 sensor_type: AHT10
@@ -2316,6 +2375,24 @@ serial_no:
 #   minimo di 1.0
 #sensor_mcu:
 #   Il microcontrollore da cui leggere. Deve essere host_mcu
+```
+
+### Combined temperature sensor
+
+Combined temperature sensor is a virtual temperature sensor based on several other sensors. This sensor can be used with extruders, heater_generic and heater beds.
+
+```
+sensor_type: temperature_combined
+#sensor_list:
+#   Must be provided. List of sensors to combine to new "virtual"
+#   sensor.
+#   E.g. 'temperature_sensor sensor1,extruder,heater_bed'
+#combination_method:
+#   Must be provided. Combination method used for the sensor.
+#   Available options are 'max', 'min', 'mean'.
+#maximum_deviation:
+#   Must be provided. Maximum permissible deviation between the sensors
+#   to combine (e.g. 5 degrees). To disable it, use a large value (e.g. 999.9)
 ```
 
 ## Ventole
@@ -3090,7 +3167,7 @@ run_current:
 
 ### [tmc2240]
 
-Configurare un driver del motore passo-passo TMC2240 tramite bus SPI. Per utilizzare questa funzionalità, definire una sezione di configurazione con un prefisso "tmc2240" seguito dal nome della sezione di configurazione dello stepper corrispondente (ad esempio, "[tmc2240 stepper_x]").
+Configure a TMC2240 stepper motor driver via SPI bus or UART. To use this feature, define a config section with a "tmc2240" prefix followed by the name of the corresponding stepper config section (for example, "[tmc2240 stepper_x]").
 
 ```
 [tmc2240 stepper_x]
@@ -3105,6 +3182,9 @@ cs_pin:
 #spi_software_miso_pin:
 #   See the "common SPI settings" section for a description of the
 #   above parameters.
+#uart_pin:
+#   The pin connected to the TMC2240 DIAG1/SW line. If this parameter
+#   is provided UART communication is used rather then SPI.
 #chain_position:
 #chain_length:
 #   These parameters configure an SPI daisy chain. The two parameters

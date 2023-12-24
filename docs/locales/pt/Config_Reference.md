@@ -1503,6 +1503,27 @@ cs_pin:
 #   medições de ressonância.
 ```
 
+### [lis2dw]
+
+Support for LIS2DW accelerometers.
+
+```
+[lis2dw]
+cs_pin:
+#   The SPI enable pin for the sensor. This parameter must be provided.
+#spi_speed: 5000000
+#   The SPI speed (in hz) to use when communicating with the chip.
+#   The default is 5000000.
+#spi_bus:
+#spi_software_sclk_pin:
+#spi_software_mosi_pin:
+#spi_software_miso_pin:
+#   See the "common SPI settings" section for a description of the
+#   above parameters.
+#axes_map: x, y, z
+#   See the "adxl345" section for information on this parameter.
+```
+
 ### [mpu9250]
 
 Support for MPU-9250, MPU-9255, MPU-6515, MPU-6050, and MPU-6500 accelerometers (one may define any number of sections with an "mpu9250" prefix).
@@ -1783,6 +1804,33 @@ z_offset:
 #   See the "probe" section for more information on the parameters above.
 ```
 
+### [axis_twist_compensation]
+
+Uma ferramenta para compensar leituras imprecisas do sensor devido à torção no eixo X da estrutura. Consulte o [Guia de Compensação de Torção do Eixo](Axis_Twist_Compensation.md) para obter informações mais detalhadas sobre os sintomas, ajustes e configuração.
+
+```
+[axis_twist_compensation]
+#speed: 50
+#   A velocidade (em mm/s) de movimentos non-probing (movimentos ou ações que não envolvem o uso de um sensor para medir ou sondar) durante a calibração.
+#   O padrão é 50.
+#horizontal_move_z: 5
+#   A altura (em mm) que a cabeça deve ser comandada para se mover
+#   logo antes de iniciar uma operação de sondagem. O padrão é 5.
+calibrate_start_x: 20
+#   Define a coordenada X mínima da calibração
+#   Esta deve ser a coordenada X que posiciona o bico na posição inicial
+#   de calibração. Este parâmetro deve ser fornecido.
+calibrate_end_x: 200
+#   Define a coordenada X máxima da calibração
+#   Esta deve ser a coordenada X que posiciona o bico na posição final
+#   de calibração. Este parâmetro deve ser fornecido.
+calibrate_y: 112.5
+#   Define a coordenada Y da calibração
+#   Esta deve ser a coordenada Y que posiciona o bico durante o
+#   processo de calibração. Este parâmetro deve ser fornecido e é recomendado que
+#   seja próximo ao centro da cama"
+```
+
 ## Motores de passo e extrusoras adicionais
 
 ### [stepper_z1]
@@ -1823,7 +1871,9 @@ See [sample-multi-extruder.cfg](../config/sample-multi-extruder.cfg) for an exam
 
 ### [dual_carriage]
 
-Support for cartesian printers with dual carriages on a single axis. The active carriage is set via the SET_DUAL_CARRIAGE extended g-code command. The "SET_DUAL_CARRIAGE CARRIAGE=1" command will activate the carriage defined in this section (CARRIAGE=0 will return activation to the primary carriage). Dual carriage support is typically combined with extra extruders - the SET_DUAL_CARRIAGE command is often called at the same time as the ACTIVATE_EXTRUDER command. Be sure to park the carriages during deactivation.
+Support for cartesian and hybrid_corexy/z printers with dual carriages on a single axis. The carriage mode can be set via the SET_DUAL_CARRIAGE extended g-code command. For example, "SET_DUAL_CARRIAGE CARRIAGE=1" command will activate the carriage defined in this section (CARRIAGE=0 will return activation to the primary carriage). Dual carriage support is typically combined with extra extruders - the SET_DUAL_CARRIAGE command is often called at the same time as the ACTIVATE_EXTRUDER command. Be sure to park the carriages during deactivation. Note that during G28 homing, typically the primary carriage is homed first followed by the carriage defined in the `[dual_carriage]` config section. However, the `[dual_carriage]` carriage will be homed first if both carriages home in a positive direction and the [dual_carriage] carriage has a `position_endstop` greater than the primary carriage, or if both carriages home in a negative direction and the `[dual_carriage]` carriage has a `position_endstop` less than the primary carriage.
+
+Além disso, pode-se usar os comandos "SET_DUAL_CARRIAGE CARRIAGE=1 MODE=COPY" ou "SET_DUAL_CARRIAGE CARRIAGE=1 MODE=MIRROR" para ativar o modo de cópia ou espelhamento do carro duplo, no qual ele seguirá o movimento do carro 0 de acordo. Esses comandos podem ser usados para imprimir duas partes simultaneamente - ou duas partes idênticas (no modo COPY) ou partes espelhadas (no modo MIRROR). Observe que os modos COPY e MIRROR também requerem configuração apropriada do extrusor no carro duplo, que geralmente pode ser alcançada com o comando "SYNC_EXTRUDER_MOTION MOTION_QUEUE=extruder EXTRUDER=<extrusor_do_carro_duplo>" ou um comando similar.
 
 See [sample-idex.cfg](../config/sample-idex.cfg) for an example configuration.
 
@@ -1832,6 +1882,15 @@ See [sample-idex.cfg](../config/sample-idex.cfg) for an example configuration.
 axis:
 #   The axis this extra carriage is on (either x or y). This parameter
 #   must be provided.
+#safe_distance:
+#   The minimum distance (in mm) to enforce between the dual and the primary
+#   carriages. If a G-Code command is executed that will bring the carriages
+#   closer than the specified limit, such a command will be rejected with an
+#   error. If safe_distance is not provided, it will be inferred from
+#   position_min and position_max for the dual and primary carriages. If set
+#   to 0 (or safe_distance is unset and position_min and position_max are
+#   identical for the primary and dual carraiges), the carriages proximity
+#   checks will be disabled.
 #step_pin:
 #dir_pin:
 #enable_pin:
@@ -2150,9 +2209,9 @@ sensor_type: BME280
 #   above parameters.
 ```
 
-### AHT10/AHT20/AHT21 temperature sensor
+### Sensor de temperatura AHT10/AHT20/AHT21. Refere-se a uma série de sensores desenvolvidos para medir temperatura e umidade. Esses sensores são conhecidos por sua precisão, confiabilidade e fácil integração com sistemas eletrônicos, como microcontroladores e sistemas de automação.
 
-AHT10/AHT20/AHT21 two wire interface (I2C) environmental sensors. Note that these sensors are not intended for use with extruders and heater beds, but rather for monitoring ambient temperature (C) and relative humidity. See [sample-macros.cfg](../config/sample-macros.cfg) for a gcode_macro that may be used to report humidity in addition to temperature.
+Sensores ambientais AHT10/AHT20/AHT21 com interface de dois fios (I2C). Observe que esses sensores não são destinados para uso com extrusoras e mesas aquecidas, mas sim para monitorar a temperatura ambiente (C) e a umidade relativa. Veja [sample-macros.cfg](../config/sample-macros.cfg) para um gcode_macro que pode ser usado para relatar a umidade além da temperatura.
 
 ```
 sensor_type: AHT10
@@ -2282,6 +2341,24 @@ serial_no:
 #   Interval in seconds between readings. Default is 3.0, with a minimum of 1.0
 #sensor_mcu:
 #   The micro-controller to read from. Must be the host_mcu
+```
+
+### Combined temperature sensor
+
+Combined temperature sensor is a virtual temperature sensor based on several other sensors. This sensor can be used with extruders, heater_generic and heater beds.
+
+```
+sensor_type: temperature_combined
+#sensor_list:
+#   Must be provided. List of sensors to combine to new "virtual"
+#   sensor.
+#   E.g. 'temperature_sensor sensor1,extruder,heater_bed'
+#combination_method:
+#   Must be provided. Combination method used for the sensor.
+#   Available options are 'max', 'min', 'mean'.
+#maximum_deviation:
+#   Must be provided. Maximum permissible deviation between the sensors
+#   to combine (e.g. 5 degrees). To disable it, use a large value (e.g. 999.9)
 ```
 
 ## Fans
@@ -3047,7 +3124,7 @@ run_current:
 
 ### [tmc2240]
 
-Configure a TMC2240 stepper motor driver via SPI bus. To use this feature, define a config section with a "tmc2240" prefix followed by the name of the corresponding stepper config section (for example, "[tmc2240 stepper_x]").
+Configure a TMC2240 stepper motor driver via SPI bus or UART. To use this feature, define a config section with a "tmc2240" prefix followed by the name of the corresponding stepper config section (for example, "[tmc2240 stepper_x]").
 
 ```
 [tmc2240 stepper_x]
@@ -3062,6 +3139,9 @@ cs_pin:
 #spi_software_miso_pin:
 #   See the "common SPI settings" section for a description of the
 #   above parameters.
+#uart_pin:
+#   The pin connected to the TMC2240 DIAG1/SW line. If this parameter
+#   is provided UART communication is used rather then SPI.
 #chain_position:
 #chain_length:
 #   These parameters configure an SPI daisy chain. The two parameters

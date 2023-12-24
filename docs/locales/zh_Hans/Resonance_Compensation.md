@@ -26,7 +26,7 @@ Klipper支持输入整形 -一种可以用来减少打印件上振纹（也被�
 
 首先，测量**振纹频率**。
 
-1. 如果“square_corner_velocity”参数已更改，请将其恢复到5.0。当使用输入整形器时，不建议增加它，因为它会导致零件更加平滑——最好使用更高的加速度值。
+1. 如果`square_corner_velocity`参数已更改，请将其恢复到5.0。当使用输入整形器时，不建议增加它，因为它会导致零件更加平滑——最好使用更高的加速度值。
 1. Increase `max_accel_to_decel` by issuing the following command: `SET_VELOCITY_LIMIT ACCEL_TO_DECEL=7000`
 1. Disable Pressure Advance: `SET_PRESSURE_ADVANCE ADVANCE=0`
 1. 如果你已经将`[input_shaper]`分段添加到print.cfg中，执行`SET_INPUT_SHAPER SHAPER_FREQ_X=0 SHAPER_FREQ_Y=0`命令。如果你得到"未知命令"错误，此时你可以安全地忽略它，继续进行测量。
@@ -148,7 +148,8 @@ Assuming that you have sliced the ringing model with suggested parameters, compl
 
 以相同的方式重复这些步骤，用Y轴替换X轴（例如，在公式和`TUNING_TOWER`命令中，用`shaper_freq_y`替换`shaper_freq_x`）。
 
-假设你已测得其中一个轴的共振频率等于45 Hz。这给出了 `TUNING_TOWER` 命令的 start = 45 * 83 / 132 = 28.30 和 factor = 45 / 66 = 0.6818 值。现在，假设在打印测试模型后，从底部数起的第四个条带的振纹最少。这给出了更新后的 shaper_freq_? 值等于 45 * (39 + 5 * 4) / 66 ≈ 40.23。
+例如，假设您已经测量了其中一个轴的振铃频率，该频率等于45赫兹。这为`TUNING_TOWER` 命令提供了start=45*83/132=28.30和factor=45/66=0.6818的值。现在让我们假设在打印测试模型之后，倒数第四个频带发出的响声最小。这给出了更新的shaper_freq_？
+值等于45*(39+5*4)/66≈40.23。
 
 在新的 `shaper_freq_x` 和 `shaper_freq_y` 参数计算完成后，你可以在 `printer.cfg` 的 `[input_shaper]` 分段中用新的 `shaper_freq_x` 和 `shaper_freq_y` 值更新。
 
@@ -197,7 +198,7 @@ For tuning, add empty `[input_shaper]` section to your `printer.cfg`. Then, assu
 
 提供之前确定的shaper_freq_x=... 和 shaper_freq_y=...。
 
-如果EI整形器显示的结果与2HUMP_EI整形器非常相似且很好，那么坚持使用EI整形器和之前确定的频率，否则使用相应频率的2HUMP_EI整形器。将结果添加到`printer.cfg`中，例如：
+如果EI整形器显示出与2HUMP_EI整形器非常类似的良好效果，则坚持使用EI整形器和前面确定的频率，否则使用2HUMP_EI整形器和相应频率。将结果添加到`printer.cfg`中，例如。
 
 ```
 [input_shaper]
@@ -224,14 +225,24 @@ It is possible that after some time the resonance frequencies have changed. E.g.
 
 ### Is dual carriage setup supported with input shapers?
 
-There is no dedicated support for dual carriages with input shapers, but it does not mean this setup will not work. One should run the tuning twice for each of the carriages, and calculate the ringing frequencies for X and Y axes for each of the carriages independently. Then put the values for carriage 0 into [input_shaper] section, and change the values on the fly when changing carriages, e.g. as a part of some macro:
+Yes. In this case, one should measure the resonances twice for each carriage. For example, if the second (dual) carriage is installed on X axis, it is possible to set different input shapers for X axis for the primary and dual carriages. However, the input shaper for Y axis should be the same for both carriages (as ultimately this axis is driven by one or more stepper motors each commanded to perform exactly the same steps). One possibility to configure the input shaper for such setups is to keep `[input_shaper]` section empty and additionally define a `[delayed_gcode]` section in the `printer.cfg` as follows:
 
 ```
-SET_DUAL_CARRIAGE CARRIAGE=1
-SET_INPUT_SHAPER SHAPER_FREQ_X=... SHAPER_FREQ_Y=...
+[input_shaper]
+# Intentionally empty
+
+[delayed_gcode init_shaper]
+initial_duration: 0.1
+gcode:
+  SET_DUAL_CARRIAGE CARRIAGE=1
+  SET_INPUT_SHAPER SHAPER_TYPE_X=<dual_carriage_shaper> SHAPER_FREQ_X=<dual_carriage_freq> SHAPER_TYPE_Y=<y_shaper> SHAPER_FREQ_Y=<y_freq>
+  SET_DUAL_CARRIAGE CARRIAGE=0
+  SET_INPUT_SHAPER SHAPER_TYPE_X=<primary_carriage_shaper> SHAPER_FREQ_X=<primary_carriage_freq> SHAPER_TYPE_Y=<y_shaper> SHAPER_FREQ_Y=<y_freq>
 ```
 
-And similarly when switching back to carriage 0.
+Note that `SHAPER_TYPE_Y` and `SHAPER_FREQ_Y` should be the same in both commands. It is also possible to put a similar snippet into the start g-code in the slicer, however then the shaper will not be enabled until any print is started.
+
+Note that the input shaper only needs to be configured once. Subsequent changes of the carriages or their modes via `SET_DUAL_CARRIAGE` command will preserve the configured input shaper parameters.
 
 ### Does input_shaper affect print time?
 
@@ -261,4 +272,4 @@ Also note that EI, 2HUMP_EI, and 3HUMP_EI are tuned to reduce vibrations to 5%, 
 * “Shaper”持续时间会影响零件的平滑度——它越大，零件就越平滑。这种依赖性不是线性的，但可以让人感觉到哪些整形器在相同频率下更“平滑”。平滑排序如下：ZV<MZV<ZVD≈EI<2HUMP_EI<3HUMP_EI。此外，为整形器2HUMP_EI和3HUMP_EI设置shapper_freq＝谐振频率是不实际的（它们应该用于减少几个频率的振动）。
 * 可以估计整形器减少振动的频率范围。例如，shapper_freq=35Hz的MZV将频率[33.6,36.4]Hz的振动降低到5%。shaper_freq=50 Hz的3HUMP_EI将[27.5，75]Hz范围内的振动降低到5%。
 * 如果需要减少几个频率的振动，可以使用此表来检查应该使用哪个整形器。例如，如果在同一轴上有35Hz和60Hz的谐振：a）EI整形器需要shapper_freq=35/（1-0.2）=43.75Hz，并且它将减小谐振直到43.75*（1+0.2）=52.5Hz，所以这是不够的；b） 2HUMP_EI整形器需要shapper_freq=35/（1-0.35）=53.85 Hz，并且将减小振动直到53.85*（1+0.35）=72.7 Hz，因此这是可接受的配置。对于给定的整形器，始终尝试使用尽可能高的shapper_freq（可能有一些安全裕度，因此在本例中，shapper_freq≈50-52 Hz最有效），并尝试使用整形器持续时间尽可能短的整形器。
-* 如果需要减少几个非常不同频率（例如，30Hz和100Hz）的振动，他们可能会发现上表没有提供足够的信息。在这种情况下，使用[scripts/graph_shaper.py]（../scripts/graph_sShaper.py）脚本可能会更幸运，因为它更灵活。
+* 如果需要减少几个非常不同频率（例如，30Hz和100Hz）的振动，他们可能会发现上表没有提供足够的信息。在这种情况下，使用[scripts/graph_shaper.py](../scripts/graph_shaper.py)脚本可能会更幸运，因为它更灵活。

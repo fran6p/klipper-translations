@@ -6,16 +6,16 @@ Welkom bij de Klipper-documentatie. Als u nieuw bent in Klipper, begin dan met d
 
 - [Kenmerken](Features.md): een lijst op hoog niveau met functies in Klipper.
 - [FAQ](FAQ.md): Veel gestelde vragen.
-- [Releases](Releases.md): The history of Klipper releases.
-- [Config changes](Config_Changes.md): Recent software changes that may require users to update their printer config file.
-- [Contact](Contact.md): Information on bug reporting and general communication with the Klipper developers.
+- [Releases](Releases.md): De geschiedenis van Klipper releases.
+- [Config changes](Config_Changes.md): Recente software wijzigingen die ervoor kunnen zorgen dat gebruikers hun printer configuratie moeten updaten.
+- [Contact](Contact.md): Informatie over foutrapportering en algemene communicatie met Klipper ontwikkelaars.
 
 ## Installation and Configuration
 
-- [Installation](Installation.md): Guide to installing Klipper.
-- [Config Reference](Config_Reference.md): Description of config parameters.
-   - [Rotation Distance](Rotation_Distance.md): Calculating the rotation_distance stepper parameter.
-- [Config checks](Config_checks.md): Verify basic pin settings in the config file.
+- [Installation](Installation.md): Gids voor het installeren van Klipper.
+- [Config Reference](Config_Reference.md): Uitleg van configuratie parameters.
+   - [Rotation Distance](Rotation_Distance.md): Berekening van de rotation_distance stepper parameter.
+- [Config checks](Config_checks.md): Verifieer simpele pin instellingen in het configuratie bestand.
 - [Bed level](Bed_Level.md): Information on "bed leveling" in Klipper.
    - [Delta calibrate](Delta_Calibrate.md): Calibration of delta kinematics.
    - [Probe calibrate](Probe_Calibrate.md): Calibration of automatic Z probes.
@@ -23,6 +23,7 @@ Welkom bij de Klipper-documentatie. Als u nieuw bent in Klipper, begin dan met d
    - [Manual level](Manual_Level.md): Calibration of Z endstops (and similar).
    - [Bed Mesh](Bed_Mesh.md): Bed height correction based on XY locations.
    - [Endstop phase](Endstop_Phase.md): Stepper assisted Z endstop positioning.
+   - [Axis Twist Compensation](Axis_Twist_Compensation.md): A tool to compensate for inaccurate probe readings due to twist in X gantry.
 - [Resonance compensation](Resonance_Compensation.md): A tool to reduce ringing in prints.
    - [Measuring resonances](Measuring_Resonances.md): Information on using adxl345 accelerometer hardware to measure resonance.
 - [Pressure advance](Pressure_Advance.md): Calibrate extruder pressure.
@@ -56,6 +57,7 @@ Welkom bij de Klipper-documentatie. Als u nieuw bent in Klipper, begin dan met d
 - [Raspberry Pi as Micro-controller](RPi_microcontroller.md): Details for controlling devices wired to the GPIO pins of a Raspberry Pi.
 - [Beaglebone](Beaglebone.md): Details for running Klipper on the Beaglebone PRU.
 - [Bootloaders](Bootloaders.md): Developer information on micro-controller flashing.
+- [Bootloader Entry](Bootloader_Entry.md): Requesting the bootloader.
 - [CAN bus](CANBUS.md): Information on using CAN bus with Klipper.
    - [CAN bus troubleshooting](CANBUS_Troubleshooting.md): Tips for troubleshooting CAN bus.
 - [TSL1401CL filament width sensor](TSL1401CL_Filament_Width_Sensor.md)
